@@ -10,6 +10,4 @@ SRCBRANCH ?= "develop"
 SRCREV = "${AUTOREV}"
 SRC_URI = "git://github.com/rockchip-linux/gstreamer-rockchip.git;branch=develop"
 
-PV = "develop++git${SRCPV}"
-
 S = "${WORKDIR}/git"

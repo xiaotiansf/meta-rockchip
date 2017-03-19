@@ -13,17 +13,24 @@ DEPENDS += "gstreamer1.0-plugins-base rockchip-mpp"
 SRC_URI_remove = " \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
 "
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESPATH_prepend := "${THISDIR}/${PN}:"
+
 inherit gettext autotools pkgconfig
 
 PACKAGECONFIG ??= " \
     mpp             \
 "
-PACKAGECONFIG[mpp]       = "--enable-rockchipmpp,--disable-rockchipmpp"
-PACKAGECONFIG[vpudec]    = "--enable-vpudec,--disable-vpudec"
+PACKAGECONFIG[mpp]    = "--enable-rockchipmpp,--disable-rockchipmpp,rockchip-mpp"
+PACKAGECONFIG[vpudec] = "--enable-vpudec,--disable-vpudec,rockchip-vpu"
+PACKAGECONFIG[drm]    = "--enable-drmrockchip,--disable-drmrockchip,libdrm-rockchip"
+PACKAGECONFIG[egl]    = "--enable-armmali,--disable-armmali,arm-mali"
 
 EXTRA_OECONF += "    \
     --disable-kms    \
 "
+EXTRA_OECONF_remove = "--disable-gtk-doc"
 
 do_configure[prefuncs] = " delete_pkg_m4_file"
 
