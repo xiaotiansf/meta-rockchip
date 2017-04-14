@@ -1,3 +1,5 @@
+DEPENDS += "${@bb.utils.contains("DISTRO_FEATURES", "wayland", " wayland-protocols", " ", d)}"
+
 PV="1.10.4"
 
 SRC_URI_remove = " \
@@ -17,6 +19,7 @@ SRC_URI += " \
     file://0010-gl-pkg-config-don-t-advertise-all-our-dependent-libr.patch \
     file://0011-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch  \
     file://0012-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
+	file://0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch \
 "
 
 EXTRA_OECONF += " \
@@ -28,3 +31,6 @@ FILESPATH_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
 SRC_URI[sha256sum] = "23ddae506b3a223b94869a0d3eea3e9a12e847f94d2d0e0b97102ce13ecd6966"
+
+EXTRA_OECONF += "WAYLAND_PROTOCOLS_SYSROOT_DIR=${STAGING_DIR}/${MACHINE}"
+EXTRA_OECONF[vardepsexclude] = "MACHINE"
