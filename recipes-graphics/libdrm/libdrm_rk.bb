@@ -5,7 +5,7 @@ SECTION = "x11/base"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 PROVIDES = "drm"
-DEPENDS = "libpthread-stubs udev libpciaccess"
+DEPENDS = "libpthread-stubs udev libpciaccess util-macros-native"
 
 SRCBRANCH ?= "rockchip-2.4.74"
 SRC_URI = "git://github.com/rockchip-linux/libdrm-rockchip.git;branch=${SRCBRANCH}"
