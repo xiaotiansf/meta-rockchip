@@ -8,6 +8,8 @@ COMPATIBLE_MACHINE = "(rk3036|rk3288|rk3399)"
 
 # There's only hardfp version available
 python __anonymous() {
+    if d.getVar("TUNE_FEATURES", True) == "aarch64":
+        return
     tunes = d.getVar("TUNE_FEATURES", True)
     if not tunes:
         return
@@ -25,7 +27,7 @@ PROVIDES += "${@bb.utils.contains("DISTRO_FEATURES", "wayland", " virtual/libway
 S = "${WORKDIR}/git"
 
 SRC_URI = "git://github.com/rockchip-linux/libmali.git;branch=rockchip;"
-SRCREV_pn-${PN} = "9e8cd208200107e344ac0e9212d93be18f2e881d"
+SRCREV_pn-${PN} = "41a3e9ae1369e2e497e5c11c4c31c8fe7f4afafc"
 
 INSANE_SKIP_${PN} = "already-stripped ldflags dev-so"
 
@@ -48,7 +50,7 @@ MALI_WAYLAND_rk3328 = "aarch64-linux-gnu/libmali-utgard-2th-r7p0-wayland.so"
 MALI_GBM_rk3328 = "aarch64-linux-gnu/libmali-utgard-2th-r7p0-gbm.so"
 
 MALI_X11_rk3399 = "aarch64-linux-gnu/libmali-midgard-4th-r9p0.so"
-MALI_WAYLAND_rk3399 = "aarch64-linux-gnu/libmali-midgard-4th-r9p0-wayland.so"
+MALI_WAYLAND_rk3399 = "aarch64-linux-gnu/libmali-midgard-4th-r13p0-wayland.so"
 MALI_GBM_rk3399 = "aarch64-linux-gnu/libmali-midgard-4th-r9p0-gbm.so"
 
 do_configure[noexec] = "1"
