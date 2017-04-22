@@ -1,5 +1,7 @@
 require recipes-graphics/xorg-xserver/xserver-xorg.inc
 
+DEPENDS += " libxfont"
+
 SRCBRANCH ?= "rockchip-1.18"
 SRC_URI = "git://github.com/rockchip-linux/xserver.git;branch=${SRCBRANCH}"
 SRC_URI += "file://macro_tweak.patch"
