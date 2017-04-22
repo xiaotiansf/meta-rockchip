@@ -57,10 +57,10 @@ do_compile[noexec] = "1"
 do_install () {
 	# Create MALI manifest
 	install -m 755 -d ${D}/${libdir}
-	if [ "${USE_X11}" = "yes" ]; then
-		install ${S}/lib/${MALI_X11} ${D}/${libdir}/libMali.so
-	elif [ "${USE_WL}" = "yes" ]; then
+	if [ "${USE_WL}" = "yes" ]; then
 		install ${S}/lib/${MALI_WAYLAND} ${D}/${libdir}/libMali.so
+	elif [ "${USE_X11}" = "yes" ]; then
+		install ${S}/lib/${MALI_X11} ${D}/${libdir}/libMali.so
 	else
 		install ${S}/lib/${MALI_GBM} ${D}/${libdir}/libMali.so
 	fi
