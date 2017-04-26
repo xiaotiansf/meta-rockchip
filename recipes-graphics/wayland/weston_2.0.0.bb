@@ -5,23 +5,24 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
                     file://libweston/compositor.c;endline=26;md5=e342df749174a8ee11065583157c7a38"
 
-SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-           file://weston.png \
-           file://weston.desktop \
-           file://0001-make-error-portable.patch \
-           file://0001-configure.ac-Fix-wayland-protocols-path.patch \
-           file://xwayland.weston-start \
-           file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
+SRC_URI = "git://github.com/wayland-project/weston.git"
+
+SRC_URI += " \
+	file://weston.png \
+	file://weston.desktop \
+	file://0001-make-error-portable.patch \
+	file://0001-configure.ac-Fix-wayland-protocols-path.patch \
+	file://xwayland.weston-start \
+	file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
 "
 
 SRC_URI += " \
-           file://1001-os-compatibility-define-CLOCK_BOOTTIME-when-not-avai.patch \
-           file://1002-clients-weston-info-print-unknown-formats-better.patch \
-           file://1003-compositor-set-DEFAULT_REPAINT_WINDOW-15.patch \
+	file://1001-os-compatibility-define-CLOCK_BOOTTIME-when-not-avai.patch \
+	file://1003-compositor-set-DEFAULT_REPAINT_WINDOW-15.patch \
 "
 
-SRC_URI[md5sum] = "15f38945942bf2a91fe2687145fb4c7d"
-SRC_URI[sha256sum] = "b4e446ac27f118196f1609dab89bb3cb3e81652d981414ad860e733b355365d8"
+SRCREV = "2cd87fe8d7cdd2bdcbe33d9cff3fce2c1c4259bb"
+S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig useradd distro_features_check
 # depends on virtual/egl
@@ -88,7 +89,7 @@ PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
 
 do_install_append() {
 	# Weston doesn't need the .la files to load modules, so wipe them
-	rm -f ${D}/${libdir}/libweston-2/*.la
+	rm -f ${D}/${libdir}/libweston-3/*.la
 
 	# If X11, ship a desktop file to launch it
 	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}" = "x11" ]; then
@@ -105,16 +106,16 @@ do_install_append() {
 }
 
 PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
-             libweston-2 ${PN}-examples"
+             libweston-3 ${PN}-examples"
 
 FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
 
-FILES_libweston-2 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-2/*.so"
-SUMMARY_libweston-2 = "Helper library for implementing 'wayland window managers'."
+FILES_libweston-3 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-3/*.so"
+SUMMARY_libweston-3 = "Helper library for implementing 'wayland window managers'."
 
 FILES_${PN}-examples = "${bindir}/*"
 
-FILES_${PN}-xwayland = "${libdir}/libweston-2/xwayland.so"
+FILES_${PN}-xwayland = "${libdir}/libweston-3/xwayland.so"
 RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
 
 RDEPENDS_${PN} += "xkeyboard-config"
