@@ -8,6 +8,15 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
 SRC_URI += " \
 	file://rockchip.cfg \
 	file://0001-arm-dts-update-dts-for-fennec.patch \
+	file://0002-arm-dts-add-missing-node-in-upstream.patch \
+"
+# FROMLIST PATCH
+SRC_URI += " \
+	file://v4-1-5-dt-bindings-gpu-add-bindings-for-the-ARM-Mali-Midgard-GPU.patch \
+	file://v4-2-5-ARM-dts-rockchip-add-ARM-Mali-GPU-node-for-rk3288.patch \
+	file://v4-3-5-ARM-dts-rockchip-enable-ARM-Mali-GPU-on-rk3288-rock2-som.patch \
+	file://v4-4-5-ARM-dts-rockchip-enable-ARM-Mali-GPU-on-rk3288-firefly.patch \
+	file://v4-5-5-ARM-dts-rockchip-enable-ARM-Mali-GPU-on-rk3288-veyron.patch\
 "
 
 SRCREV = "c154165e93b7f1ee9c63906fa200bc735098d47d"
