@@ -9,6 +9,7 @@ SRC_URI += " \
 	file://rockchip.cfg \
 	file://0001-arm-dts-update-dts-for-fennec.patch \
 	file://0002-arm-dts-add-missing-node-in-upstream.patch \
+	file://0003-arm-dts-add-rga-gpu-vpu-for-rk3288-evb.patch \
 "
 # FROMLIST PATCH
 SRC_URI += " \
