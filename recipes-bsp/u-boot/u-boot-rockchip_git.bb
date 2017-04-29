@@ -14,7 +14,7 @@ DEPENDS = "dtc-native bc-native"
 SRC_URI = " \
 	git://github.com/rockchip-linux/u-boot.git;branch=release; \
 	file://binutils-2.28-ld-fix.patch \
-	"
+"
 
 SRCREV = "${AUTOREV}"
 S = "${WORKDIR}/git"

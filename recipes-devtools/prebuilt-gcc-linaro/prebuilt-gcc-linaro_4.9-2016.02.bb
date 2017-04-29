@@ -20,8 +20,8 @@ python do_fetch() {
 }
 
 do_install() {
-    DIRS="arm-linux-gnueabi bin lib libexec"
-    for subdir in $DIRS; do
-        cp -rPp ${S}/${subdir} ${STAGING_DIR_NATIVE}${prefix_native}
-    done
+	DIRS="arm-linux-gnueabi bin lib libexec"
+	for subdir in $DIRS; do
+		cp -rPp ${S}/${subdir} ${STAGING_DIR_NATIVE}${prefix_native}
+	done
 }
