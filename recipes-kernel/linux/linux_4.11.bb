@@ -5,6 +5,10 @@
 require recipes-kernel/linux/linux-yocto.inc
 
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
+SRC_URI += " \
+	file://rockchip.cfg \
+	file://0001-arm-dts-update-dts-for-fennec.patch \
+"
 
 SRCREV = "c154165e93b7f1ee9c63906fa200bc735098d47d"
 LINUX_VERSION = "4.11"
@@ -16,4 +20,5 @@ PV = "${LINUX_VERSION}-rc7"
 
 # Include only supported boards for now
 COMPATIBLE_MACHINE = "(rk3036|rk3288|rk3399)"
-deltask kernel_configme
+
+KCONFIG_MODE = "alldefconfig"
