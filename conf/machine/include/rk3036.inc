@@ -16,5 +16,3 @@ SPL_BINARY ?= "u-boot-spl-nodtb.bin"
 
 IMAGE_FSTYPES = "ext4 rockchip-gpt-img"
 IMAGE_CLASSES += "rockchip-gpt-img"
-
-GPTIMG_APPEND = "console=tty1 console=ttyS2,115200n8 rw root=/dev/mmcblk1p7 rootfstype=ext4 init=/sbin/init rootwait"
