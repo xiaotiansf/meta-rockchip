@@ -5,7 +5,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
                     file://libweston/compositor.c;endline=26;md5=e342df749174a8ee11065583157c7a38"
 
-SRC_URI = "git://github.com/wayland-project/weston.git"
+SRC_URI = "git://git.collabora.com/git/user/daniels/weston.git;branch=wip/2017-04/atomic-v11-WIP"
 
 SRC_URI += " \
 	file://weston.png \
@@ -21,7 +21,7 @@ SRC_URI += " \
 	file://1003-compositor-set-DEFAULT_REPAINT_WINDOW-15.patch \
 "
 
-SRCREV = "2cd87fe8d7cdd2bdcbe33d9cff3fce2c1c4259bb"
+SRCREV = "ba89ba384c88869fe6c6d6c669ed8b067c681c5f"
 S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig useradd distro_features_check
