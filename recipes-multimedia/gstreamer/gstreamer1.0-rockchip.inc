@@ -26,7 +26,6 @@ PACKAGECONFIG ??= " \
 PACKAGECONFIG[mpp]    = "--enable-rockchipmpp,--disable-rockchipmpp,rockchip-mpp"
 PACKAGECONFIG[vpudec] = "--enable-vpudec,--disable-vpudec,rockchip-vpu"
 PACKAGECONFIG[drm]    = "--enable-drmrockchip,--disable-drmrockchip,libdrm"
-PACKAGECONFIG[egl]    = "--enable-armmali,--disable-armmali,rockchip-mali"
 
 EXTRA_OECONF += "    \
     --disable-kms    \
