@@ -7,9 +7,9 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 PROVIDES = "drm"
 DEPENDS = "libpthread-stubs udev libpciaccess"
 
-SRCBRANCH ?= "rockchip-2.4.74"
+SRCBRANCH ?= "rockchip-2.4.8"
 SRC_URI = "git://github.com/rockchip-linux/libdrm-rockchip.git;branch=${SRCBRANCH}"
-SRCREV = "fde97735848fe63934c76a5ae579f9a915959db5"
+SRCREV = "d2f498d648bf6e36c3db45d18f6d49044ad2ff9e"
 S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig
