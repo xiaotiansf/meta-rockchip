@@ -1,0 +1,43 @@
+From e2fba4003863edb39ecd779204818497bbddb652 Mon Sep 17 00:00:00 2001
+From: Fabien Dessenne <fabien.dessenne@st.com>
+Date: Thu, 8 Dec 2016 10:22:23 +0100
+Subject: [PATCH 11/15] waylandsink: fix display re-connection (redraw pending)
+
+Reset redraw_pending at display disconnection, so we can re-connect
+later from a clean state (avoid endless buffer drops).
+Add a log to inform of dropped buffers.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=775791
+---
+ ext/wayland/gstwaylandsink.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/ext/wayland/gstwaylandsink.c b/ext/wayland/gstwaylandsink.c
+index d0efa29..1da0d7d 100644
+--- a/ext/wayland/gstwaylandsink.c
++++ b/ext/wayland/gstwaylandsink.c
+@@ -349,6 +349,9 @@ gst_wayland_sink_change_state (GstElement * element, GstStateChange transition)
+        */
+       if (sink->display && !sink->window) {     /* -> the window was toplevel */
+         g_clear_object (&sink->display);
++        g_mutex_lock (&sink->render_lock);
++        sink->redraw_pending = FALSE;
++        g_mutex_unlock (&sink->render_lock);
+       }
+       g_mutex_unlock (&sink->display_lock);
+       g_clear_object (&sink->pool);
+@@ -617,8 +620,10 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
+   }
+ 
+   /* drop buffers until we get a frame callback */
+-  if (sink->redraw_pending)
++  if (sink->redraw_pending) {
++    GST_LOG_OBJECT (sink, "buffer %p dropped (redraw pending)", buffer);
+     goto done;
++  }
+ 
+   /* make sure that the application has called set_render_rectangle() */
+   if (G_UNLIKELY (sink->window->render_rectangle.w == 0))
+-- 
+2.7.4
+

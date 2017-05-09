@@ -1,0 +1,60 @@
+From a402b89cb0dcb88da04357fe6881a87921303e59 Mon Sep 17 00:00:00 2001
+From: Jacob Chen <jacob-chen@iotwrt.com>
+Date: Tue, 9 May 2017 10:35:30 +0800
+Subject: [PATCH] Revert "waylandsink: consider buffer size when copying to wl
+ shm pool"
+
+This reverts commit fb2e63c468321a1691e06c5aad22df7559e1bd54.
+---
+ ext/wayland/gstwaylandsink.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/ext/wayland/gstwaylandsink.c b/ext/wayland/gstwaylandsink.c
+index 85497f9..4b39ae1 100644
+--- a/ext/wayland/gstwaylandsink.c
++++ b/ext/wayland/gstwaylandsink.c
+@@ -625,9 +625,6 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
+     GstMemory *mem;
+     struct wl_buffer *wbuf = NULL;
+ 
+-    /* FIXME check all memory when introducing DMA-Buf */
+-    mem = gst_buffer_peek_memory (buffer, 0);
+-
+     /* update video info from video meta */
+     vmeta = gst_buffer_get_video_meta (buffer);
+     if (vmeta) {
+@@ -637,13 +634,14 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
+         sink->video_info.offset[i] = vmeta->offset[i];
+         sink->video_info.stride[i] = vmeta->stride[i];
+       }
+-
+-      sink->video_info.size = mem->size;
+     }
+ 
+     GST_LOG_OBJECT (sink, "buffer %p does not have a wl_buffer from our "
+         "display, creating it", buffer);
+ 
++    /* FIXME check all memory when introducing DMA-Buf */
++    mem = gst_buffer_peek_memory (buffer, 0);
++
+     if (gst_is_wl_shm_memory (mem)) {
+       wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, sink->display,
+           &sink->video_info);
+@@ -668,11 +666,11 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
+       if (!gst_buffer_pool_is_active (sink->pool)) {
+         GstStructure *config;
+         GstCaps *caps;
++        guint size = sink->video_info.size;
+ 
+         config = gst_buffer_pool_get_config (sink->pool);
+-        gst_buffer_pool_config_get_params (config, &caps, NULL, NULL, NULL);
+-        gst_buffer_pool_config_set_params (config, caps, sink->video_info.size,
+-            2, 0);
++        gst_buffer_pool_config_get_params (config, &caps, &size, NULL, NULL);
++        gst_buffer_pool_config_set_params (config, caps, size, 2, 0);
+ 
+         /* This is a video pool, it should not fail with basic setings */
+         if (!gst_buffer_pool_set_config (sink->pool, config) ||
+-- 
+2.7.4
+

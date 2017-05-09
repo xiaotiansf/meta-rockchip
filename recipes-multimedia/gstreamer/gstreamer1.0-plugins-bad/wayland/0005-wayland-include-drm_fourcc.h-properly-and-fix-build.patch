@@ -1,0 +1,48 @@
+From 9229e34a6b770f050ee4a5e01423b6ca5b9c55eb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
+Date: Fri, 4 Nov 2016 00:52:41 +0000
+Subject: [PATCH 05/15] wayland: include drm_fourcc.h properly and fix build
+
+---
+ ext/wayland/Makefile.am     | 6 ++++--
+ ext/wayland/wlvideoformat.h | 2 +-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/ext/wayland/Makefile.am b/ext/wayland/Makefile.am
+index 8442dbd..458b5a5 100644
+--- a/ext/wayland/Makefile.am
++++ b/ext/wayland/Makefile.am
+@@ -23,13 +23,15 @@ libgstwaylandsink_la_CFLAGS = \
+ 	$(GST_PLUGINS_BAD_CFLAGS) \
+ 	$(GST_PLUGINS_BASE_CFLAGS) \
+ 	$(GST_CFLAGS) \
+-	$(WAYLAND_CFLAGS)
++	$(WAYLAND_CFLAGS) \
++	$(WAYLAND_DRM_CFLAGS)
+ libgstwaylandsink_la_LIBADD = \
+ 	$(top_builddir)/gst-libs/gst/wayland/libgstwayland-$(GST_API_VERSION).la \
+ 	$(GST_PLUGINS_BASE_LIBS) \
+ 	-lgstvideo-$(GST_API_VERSION) \
+ 	-lgstallocators-$(GST_API_VERSION) \
+-	$(WAYLAND_LIBS)
++	$(WAYLAND_LIBS) \
++	$(WAYLAND_DRM_LIBS)
+ libgstwaylandsink_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
+ libgstwaylandsink_la_LIBTOOLFLAGS = $(GST_PLUGIN_LIBTOOLFLAGS)
+ 
+diff --git a/ext/wayland/wlvideoformat.h b/ext/wayland/wlvideoformat.h
+index a0a1537..331f582 100644
+--- a/ext/wayland/wlvideoformat.h
++++ b/ext/wayland/wlvideoformat.h
+@@ -26,7 +26,7 @@
+ 
+ #include <wayland-client-protocol.h>
+ #include <gst/video/video.h>
+-#include <drm/drm_fourcc.h>
++#include <drm/drm_fourcc.h>
+ 
+ G_BEGIN_DECLS
+ 
+-- 
+2.7.4
+
