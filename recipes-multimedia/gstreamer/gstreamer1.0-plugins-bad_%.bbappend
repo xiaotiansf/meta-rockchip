@@ -38,6 +38,7 @@ SRC_URI += " \
 	file://wayland/0012-waylandsink-set-video-surface-opaque.patch \
 	file://wayland/0013-waylandsink-consider-buffer-size-when-copying-to-wl-.patch \
 	file://wayland/0014-waylandsink-fix-memory-offset-calculation-for-dmabuf.patch \
+	file://wayland/0015-HACK-always-reutrn-true-when-check-format.patch \
 "
 
 EXTRA_OECONF += " \
