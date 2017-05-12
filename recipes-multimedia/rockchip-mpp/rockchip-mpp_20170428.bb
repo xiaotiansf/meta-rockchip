@@ -6,7 +6,6 @@ include rockchip-mpp.inc
 TAG = "release_${PV}"
 SRC_URI = " \
     git://github.com/rockchip-linux/mpp.git;tag=${TAG};nobranch=1 \
-    file://0001-fix-access-violation-in-system-compatible-reading.patch \
 "
 
 S = "${WORKDIR}/git"
