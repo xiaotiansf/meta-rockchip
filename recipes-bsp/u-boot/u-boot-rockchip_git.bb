@@ -19,7 +19,7 @@ SRC_URI = " \
 SRCREV = "${AUTOREV}"
 S = "${WORKDIR}/git"
 
-do_install_prepend () {
+do_compile_append () {
 	# copy to default search path
-	[ ${SPL_BINARY} ] && cp ${B}/spl/${SPL_BINARY} ${B}/${SPL_BINARY}
+	cp ${B}/spl/${SPL_BINARY} ${B}/
 }
