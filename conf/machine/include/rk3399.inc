@@ -11,7 +11,6 @@ SERIAL_CONSOLES = "1500000;ttyFIQ0"
 KERNEL_IMAGETYPE = "Image"
 
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-rockchip"
-SPL_BINARY ?= "u-boot-spl-nodtb.bin"
 
-IMAGE_FSTYPES = "ext4 rockchip-update-img"
+IMAGE_FSTYPES = "ext4 rockchip-update-img rockchip-gpt-img"
 IMAGE_CLASSES += "rockchip-gpt-img rockchip-update-img"
