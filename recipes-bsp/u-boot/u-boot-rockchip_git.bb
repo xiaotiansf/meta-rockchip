@@ -21,5 +21,5 @@ S = "${WORKDIR}/git"
 
 do_install_prepend () {
 	# copy to default search path
-	cp ${B}/spl/${SPL_BINARY} ${B}/${SPL_BINARY}
+	[ ${SPL_BINARY} ] && cp ${B}/spl/${SPL_BINARY} ${B}/${SPL_BINARY}
 }
