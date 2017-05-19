@@ -10,16 +10,10 @@ SRC_URI = "git://github.com/rockchip-linux/rkbin.git"
 SRCREV = "7b3142bfc7b43709b2d09ca00faf85b36f8f74a4"
 S = "${WORKDIR}/git"
 
-LOADER_rk3036 ?= "rk30/rk3036_loader_v1.07.219.bin"
-LOADER_rk3288 ?= "rk32/rk3288_ubootloader_v1.01.06.bin"
 LOADER_rk3399 ?= "rk33/rk3399_loader_v1.08.106.bin"
 
-MINILOADER_rk3036 ?= "rk30/rk303x_miniloader_v2.36.bin"
-MINILOADER_rk3288 ?= "rk32/rk3288_miniloader_v2.32.bin"
 MINILOADER_rk3399 ?= "rk33/rk3399_miniloader_v1.06.bin"
 
-DDR_rk3036 ?= "rk30/rk3036_ddr3_400MHz_v1.07.bin"
-DDR_rk3288 ?= "rk32/rk3288_ddr_400MHz_v1.03.bin"
 DDR_rk3399 ?= "rk33/rk3399_ddr_800MHz_v1.08.bin"
 
 inherit deploy
