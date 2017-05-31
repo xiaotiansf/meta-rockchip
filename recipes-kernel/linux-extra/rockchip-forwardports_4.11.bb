@@ -6,7 +6,7 @@ DESCRIPTION = "This projects takes features included in https://github.com/rockc
     and makes them buildable out-of-tree, on mainline kernel"
 
 LICENSE = "GPL-2.0"
-LIC_FILES_CHKSUM = "file://COPYING;md5=10ce5de3b111315ea652a5f74ec0c602"
+LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 inherit module
 
@@ -33,3 +33,5 @@ module_do_compile() {
 		CONFIG_MALI_MIDGARD=m CONFIG_MALI_DEVFREQ=y CONFIG_MALI_DMA_FENCE=y \
 		CONFIG_MALI_EXPERT=y CONFIG_MALI_PLATFORM_THIRDPARTY=y CONFIG_MALI_PLATFORM_THIRDPARTY_NAME=rk
 }
+
+KERNEL_MODULE_AUTOLOAD += "mali_kbase"
