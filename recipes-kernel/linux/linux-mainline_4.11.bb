@@ -19,6 +19,7 @@ SRC_URI += " \
 	file://v4-4-5-ARM-dts-rockchip-enable-ARM-Mali-GPU-on-rk3288-firefly.patch \
 	file://v4-5-5-ARM-dts-rockchip-enable-ARM-Mali-GPU-on-rk3288-veyron.patch \
 	file://V3-2-2-ARM-dts-rockchip-add-dts-for-RK3288-Tinker-board.patch \
+	file://0004-ARM-dts-rockchip-enable-gpu-and-vpu-for-RK3288-Tinke.patch \
 "
 
 SRCREV = "c154165e93b7f1ee9c63906fa200bc735098d47d"
