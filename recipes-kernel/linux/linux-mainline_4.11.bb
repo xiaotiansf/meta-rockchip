@@ -17,7 +17,8 @@ SRC_URI += " \
 	file://v4-2-5-ARM-dts-rockchip-add-ARM-Mali-GPU-node-for-rk3288.patch \
 	file://v4-3-5-ARM-dts-rockchip-enable-ARM-Mali-GPU-on-rk3288-rock2-som.patch \
 	file://v4-4-5-ARM-dts-rockchip-enable-ARM-Mali-GPU-on-rk3288-firefly.patch \
-	file://v4-5-5-ARM-dts-rockchip-enable-ARM-Mali-GPU-on-rk3288-veyron.patch\
+	file://v4-5-5-ARM-dts-rockchip-enable-ARM-Mali-GPU-on-rk3288-veyron.patch \
+	file://V3-2-2-ARM-dts-rockchip-add-dts-for-RK3288-Tinker-board.patch \
 "
 
 SRCREV = "c154165e93b7f1ee9c63906fa200bc735098d47d"
@@ -31,5 +32,6 @@ PV = "${LINUX_VERSION}-rc7"
 # Include only supported boards for now
 COMPATIBLE_MACHINE = "(rk3036|rk3288|rk3399)"
 
-KCONFIG_MODE = "alldefconfig"
+KCONFIG_MODE = "--alldefconfig"
 
+RDEPENDS_${PN} += "rockchip-forwardports"
