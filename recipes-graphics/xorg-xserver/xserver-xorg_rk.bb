@@ -6,7 +6,7 @@ SRCBRANCH ?= "rockchip-1.19"
 SRC_URI = "git://github.com/rockchip-linux/xserver.git;branch=${SRCBRANCH}"
 SRC_URI += "file://macro_tweak.patch"
 SRC_URI += "file://musl-arm-inb-outb.patch"
-SRCREV = "fa67c936a8712cbcb7b33bc66cfd8e206cc21546"
+SRCREV = "320aa6b489f15390452497e9e21bba58b371e8a9"
 S = "${WORKDIR}/git"
 
 PACKAGECONFIG_append = " glamor dri3 unwind xshmfence"
