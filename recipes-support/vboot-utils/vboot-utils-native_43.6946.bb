@@ -20,6 +20,6 @@ EXTRA_OEMAKE = ""
 inherit base native
 
 do_install_append() {
-	oe_runmake PREFIX=${prefix} DESTDIR=${D} install
+    oe_runmake PREFIX=${prefix} DESTDIR=${D} install
 }
 

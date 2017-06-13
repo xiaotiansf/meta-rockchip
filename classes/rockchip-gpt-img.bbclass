@@ -6,19 +6,24 @@ inherit image_types
 
 # Use an uncompressed ext4 by default as rootfs
 IMG_ROOTFS_TYPE = "ext4"
-IMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.${IMG_ROOTFS_TYPE}"
+IMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_BASENAME}-${MACHINE}.${IMG_ROOTFS_TYPE}"
 
 # This image depends on the rootfs image
 IMAGE_TYPEDEP_rockchip-gpt-img = "${IMG_ROOTFS_TYPE}"
 
-GPTIMG         = "${IMAGE_NAME}-gpt.img"
-GPTIMG_SYMLK   = "${IMAGE_BASENAME}-${MACHINE}-gpt.img"
-GPTIMG_SIZE   ?= "4096"
-BOOT_IMG       = "boot.img"
-BOOTIMG_SYMLK  = "${IMAGE_BASENAME}-${MACHINE}-${BOOT_IMG}"
-MINILOADER     = "loader.bin"
-UBOOT          = "u-boot.out"
-TRUST          = "trust.out"
+GPTIMG = "${IMAGE_NAME}-gpt.img"
+GPTIMG_SYMLK = "${IMAGE_BASENAME}-${MACHINE}-gpt.img"
+GPTIMG_SIZE ?= "4096"
+BOOT_IMG = "boot.img"
+BOOTIMG_SYMLK = "${IMAGE_BASENAME}-${MACHINE}-${BOOT_IMG}"
+DDR_BIN = "ddr.bin"
+LOADER_BIN = "loader.bin"
+MINILOADER_BIN = "miniloader.bin"
+ATF_BIN = "atf.bin"
+UBOOT = "u-boot.out"
+UBOOT_IMG = "u-boot.img"
+TRUST = "trust.out"
+TRUST_IMG = "trust.img"
 GPTIMG_APPEND ?= "console=tty1 console=ttyS2,115200n8 rw root=/dev/mmcblk2p7 rootfstype=ext4 init=/sbin/init"
 
 # default partitions [in Sectors]
@@ -34,6 +39,8 @@ IMAGE_DEPENDS_rockchip-gpt-img = "parted-native \
 	u-boot-mkimage-native \
 	mtools-native \
 	dosfstools-native \
+	rk-binary-loader \
+	rk-binary-native \
 	virtual/kernel:do_deploy \
 	virtual/bootloader:do_deploy"
 
@@ -41,7 +48,7 @@ PER_CHIP_IMG_GENERATION_COMMAND_rk3036 = "generate_rk3036_loader1_image"
 PER_CHIP_IMG_GENERATION_COMMAND_rk3288 = "generate_rk3288_loader1_image"
 PER_CHIP_IMG_GENERATION_COMMAND_rk3399 = "generate_rk3399_image"
 
-IMAGE_CMD_rockchip-gpt-img () {
+IMAGE_CMD_rockchip-gpt-img() {
 	# Change to image directory
 	cd ${DEPLOY_DIR_IMAGE}
 
@@ -65,7 +72,7 @@ IMAGE_CMD_rockchip-gpt-img () {
 	ln -s ${IMAGE_NAME}-boot.img ${BOOTIMG_SYMLK}
 }
 
-create_rk_image () {
+create_rk_image() {
 
 	# Initialize sdcard image file
 	dd if=/dev/zero of=${GPTIMG} bs=1M count=0 seek=${GPTIMG_SIZE}
@@ -75,21 +82,21 @@ create_rk_image () {
 
 	# Create vendor defined partitions
 	LOADER1_START=64
-	RESERVED1_START=`expr ${LOADER1_START}  + ${LOADER1_SIZE}`
-	RESERVED2_START=`expr ${RESERVED1_START}  + ${RESERVED1_SIZE}`
-	LOADER2_START=`expr ${RESERVED2_START}  + ${RESERVED2_SIZE}`
-	ATF_START=`expr ${LOADER2_START}  + ${LOADER2_SIZE}`
-	BOOT_START=`expr ${ATF_START}  + ${ATF_SIZE}`
-	ROOTFS_START=`expr ${BOOT_START}  + ${BOOT_SIZE}`
+	RESERVED1_START=$(expr ${LOADER1_START} + ${LOADER1_SIZE})
+	RESERVED2_START=$(expr ${RESERVED1_START} + ${RESERVED1_SIZE})
+	LOADER2_START=$(expr ${RESERVED2_START} + ${RESERVED2_SIZE})
+	ATF_START=$(expr ${LOADER2_START} + ${LOADER2_SIZE})
+	BOOT_START=$(expr ${ATF_START} + ${ATF_SIZE})
+	ROOTFS_START=$(expr ${BOOT_START} + ${BOOT_SIZE})
 
-	parted -s ${GPTIMG} unit s mkpart loader1 ${LOADER1_START} `expr ${RESERVED1_START} - 1`
-	parted -s ${GPTIMG} unit s mkpart reserved1 ${RESERVED1_START} `expr ${RESERVED2_START} - 1`
-	parted -s ${GPTIMG} unit s mkpart reserved2 ${RESERVED2_START} `expr ${LOADER2_START} - 1`
-	parted -s ${GPTIMG} unit s mkpart loader2 ${LOADER2_START} `expr ${ATF_START} - 1`
-	parted -s ${GPTIMG} unit s mkpart atf ${ATF_START} `expr ${BOOT_START} - 1`
+	parted -s ${GPTIMG} unit s mkpart loader1 ${LOADER1_START} $(expr ${RESERVED1_START} - 1)
+	parted -s ${GPTIMG} unit s mkpart reserved1 ${RESERVED1_START} $(expr ${RESERVED2_START} - 1)
+	parted -s ${GPTIMG} unit s mkpart reserved2 ${RESERVED2_START} $(expr ${LOADER2_START} - 1)
+	parted -s ${GPTIMG} unit s mkpart loader2 ${LOADER2_START} $(expr ${ATF_START} - 1)
+	parted -s ${GPTIMG} unit s mkpart atf ${ATF_START} $(expr ${BOOT_START} - 1)
 
 	# Create boot partition and mark it as bootable
-	parted -s ${GPTIMG} unit s mkpart boot ${BOOT_START} `expr ${ROOTFS_START} - 1`
+	parted -s ${GPTIMG} unit s mkpart boot ${BOOT_START} $(expr ${ROOTFS_START} - 1)
 	parted -s ${GPTIMG} set 6 boot on
 
 	# Create rootfs partition
@@ -102,7 +109,7 @@ create_rk_image () {
 
 	# Create boot partition image
 	BOOT_BLOCKS=$(LC_ALL=C parted -s ${GPTIMG} unit b print | awk '/ 6 / { print substr($4, 1, length($4 -1)) / 512 /2 }')
-	BOOT_BLOCKS=`expr $BOOT_BLOCKS / 63 \* 63`
+	BOOT_BLOCKS=$(expr $BOOT_BLOCKS / 63 \* 63)
 
 	mkfs.vfat -n "boot" -S 512 -C ${WORKDIR}/${BOOT_IMG} $BOOT_BLOCKS
 	mcopy -i ${WORKDIR}/${BOOT_IMG} -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${MACHINE}.bin ::${KERNEL_IMAGETYPE}
@@ -115,7 +122,7 @@ create_rk_image () {
 	done
 
 	# Create extlinux config file
-	cat > ${WORKDIR}/extlinux.conf <<EOF
+	cat >${WORKDIR}/extlinux.conf <<EOF
 default yocto
 
 label yocto
@@ -135,29 +142,40 @@ EOF
 
 }
 
-generate_rk3036_loader1_image () {
+generate_rk3036_loader1_image() {
 
 	# Burn bootloader
 	mkimage -n rk3036 -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${UBOOT}
-	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>  ${WORKDIR}/${UBOOT}
+	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>${WORKDIR}/${UBOOT}
 	dd if=${WORKDIR}/${UBOOT} of=${GPTIMG} conv=notrunc,fsync seek=64
 
 }
 
-generate_rk3288_loader1_image () {
+generate_rk3288_loader1_image() {
 
 	# Burn bootloader
 	mkimage -n rk3288 -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${UBOOT}
-	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>  ${WORKDIR}/${UBOOT}
+	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>${WORKDIR}/${UBOOT}
 	dd if=${WORKDIR}/${UBOOT} of=${GPTIMG} conv=notrunc,fsync seek=64
 
 }
 
-generate_rk3399_image () {
+generate_rk3399_image() {
+	LOADER1_START=64
+	RESERVED1_START=$(expr ${LOADER1_START} + ${LOADER1_SIZE})
+	RESERVED2_START=$(expr ${RESERVED1_START} + ${RESERVED1_SIZE})
+	LOADER2_START=$(expr ${RESERVED2_START} + ${RESERVED2_SIZE})
+	ATF_START=$(expr ${LOADER2_START} + ${LOADER2_SIZE})
+	BOOT_START=$(expr ${ATF_START} + ${ATF_SIZE})
+	ROOTFS_START=$(expr ${BOOT_START} + ${BOOT_SIZE})
 
 	# Burn bootloader
-	mkimage -n rk3399 -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${UBOOT}
-	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>  ${WORKDIR}/${UBOOT}
-	dd if=${WORKDIR}/${UBOOT} of=${GPTIMG} conv=notrunc,fsync seek=64
+	loaderimage --pack --uboot ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin ${WORKDIR}/${UBOOT_IMG}
 
+	mkimage -n rk3399 -T rksd -d ${DEPLOY_DIR_IMAGE}/${DDR_BIN} ${WORKDIR}/idbloader.img
+	cat ${DEPLOY_DIR_IMAGE}/${MINILOADER_BIN} >>${WORKDIR}/idbloader.img
+
+	dd if=${WORKDIR}/idbloader.img of=${GPTIMG} conv=notrunc,fsync seek=${LOADER1_START}
+	dd if=${WORKDIR}/${UBOOT_IMG} of=${GPTIMG} conv=notrunc,fsync seek=${LOADER2_START}
+	dd if=${DEPLOY_DIR_IMAGE}/${TRUST_IMG} of=${GPTIMG} conv=notrunc,fsync seek=${ATF_START}
 }

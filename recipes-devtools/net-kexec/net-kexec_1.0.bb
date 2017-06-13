@@ -11,8 +11,8 @@ PR = "r1"
 RDEPENDS_${PN} += "kexec"
 
 do_install() {
-        install -d ${D}/sbin
-        install -m 0755 ${WORKDIR}/net-kexec.sh ${D}/sbin/net-kexec
+	install -d ${D}/sbin
+	install -m 0755 ${WORKDIR}/net-kexec.sh ${D}/sbin/net-kexec
 }
 
 inherit allarch

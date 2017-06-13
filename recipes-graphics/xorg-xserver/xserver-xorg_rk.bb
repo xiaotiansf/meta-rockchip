@@ -1,12 +1,13 @@
 require recipes-graphics/xorg-xserver/xserver-xorg.inc
 
-DEPENDS += " libxfont"
+DEPENDS += " libxfont2"
 
-SRCBRANCH ?= "rockchip-1.18"
+SRCBRANCH ?= "rockchip-1.19"
+
 SRC_URI = "git://github.com/rockchip-linux/xserver.git;branch=${SRCBRANCH}"
 SRC_URI += "file://macro_tweak.patch"
 SRC_URI += "file://musl-arm-inb-outb.patch"
-SRCREV = "7c0e5790bd09e8ab62bd43304a05d63cfd7d3349"
+SRCREV = "320aa6b489f15390452497e9e21bba58b371e8a9"
 S = "${WORKDIR}/git"
 
 PACKAGECONFIG_append = " glamor dri3 unwind xshmfence"

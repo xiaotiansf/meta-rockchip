@@ -14,12 +14,13 @@ DEPENDS = "dtc-native bc-native"
 SRC_URI = " \
 	git://github.com/rockchip-linux/u-boot.git;branch=release; \
 	file://binutils-2.28-ld-fix.patch \
-	"
+"
 
 SRCREV = "${AUTOREV}"
+PV = "v2017.05+git${SRCPV}"
 S = "${WORKDIR}/git"
 
-do_install_prepend () {
+do_compile_append () {
 	# copy to default search path
 	cp ${B}/spl/${SPL_BINARY} ${B}/
 }

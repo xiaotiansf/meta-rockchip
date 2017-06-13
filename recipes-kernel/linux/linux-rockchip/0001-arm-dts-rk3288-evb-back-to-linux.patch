@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 From 395814b94d1d731a4cb9668dffbae47824f83b8a Mon Sep 17 00:00:00 2001
 From: Jacob Chen <jacob2.chen@rock-chips.com>
 Date: Tue, 25 Apr 2017 10:34:56 +0800
@@ -26,11 +27,137 @@ index 5817289..f4fe007 100644
  	cpu0-supply = <&vdd_cpu>;
  };
  
+=======
+From f64d494f70855f069778bb59742b439491f61a8a Mon Sep 17 00:00:00 2001
+From: Jacob Chen <jacob2.chen@rock-chips.com>
+Date: Wed, 31 May 2017 11:34:45 +0800
+Subject: [PATCH] arm: dts: rk3288-evb: back to linux
+
+Change-Id: I84e7ecd0c7d51456a305b4bc491ce16fd6860f49
+Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+---
+ arch/arm/boot/dts/Makefile                   |   2 +-
+ arch/arm/boot/dts/rk3288-evb-act8846-edp.dts | 330 ---------------------------
+ arch/arm/boot/dts/rk3288-evb-act8846.dts     | 257 +++++++++++++++++++++
+ arch/arm/boot/dts/rk3288-evb.dtsi            | 152 +++++++-----
+ 4 files changed, 359 insertions(+), 382 deletions(-)
+ delete mode 100644 arch/arm/boot/dts/rk3288-evb-act8846-edp.dts
+ create mode 100644 arch/arm/boot/dts/rk3288-evb-act8846.dts
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index a53f0e6..f37752d 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -521,7 +521,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
+ 	rk3228-evb.dtb \
+ 	rk3229-echo-v10.dtb \
+ 	rk3229-evb.dtb \
+-	rk3288-evb-act8846-edp.dtb \
++	rk3288-evb-act8846.dtb \
+ 	rk3288-evb-rk808.dtb \
+ 	rk3288-evb-rk818-edp.dtb \
+ 	rk3288-evb-rk818-mipi.dtb \
+diff --git a/arch/arm/boot/dts/rk3288-evb-act8846-edp.dts b/arch/arm/boot/dts/rk3288-evb-act8846-edp.dts
+deleted file mode 100644
+index cfa8c382..0000000
+--- a/arch/arm/boot/dts/rk3288-evb-act8846-edp.dts
++++ /dev/null
+@@ -1,330 +0,0 @@
+-/*
+- * This file is dual-licensed: you can use it either under the terms
+- * of the GPL or the X11 license, at your option. Note that this dual
+- * licensing only applies to this file, and not this project as a
+- * whole.
+- *
+- *  a) This file is free software; you can redistribute it and/or
+- *     modify it under the terms of the GNU General Public License as
+- *     published by the Free Software Foundation; either version 2 of the
+- *     License, or (at your option) any later version.
+- *
+- *     This file is distributed in the hope that it will be useful,
+- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *     GNU General Public License for more details.
+- *
+- * Or, alternatively,
+- *
+- *  b) Permission is hereby granted, free of charge, to any person
+- *     obtaining a copy of this software and associated documentation
+- *     files (the "Software"), to deal in the Software without
+- *     restriction, including without limitation the rights to use,
+- *     copy, modify, merge, publish, distribute, sublicense, and/or
+- *     sell copies of the Software, and to permit persons to whom the
+- *     Software is furnished to do so, subject to the following
+- *     conditions:
+- *
+- *     The above copyright notice and this permission notice shall be
+- *     included in all copies or substantial portions of the Software.
+- *
+- *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+- *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- *     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+- *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+- *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+- *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- *     OTHER DEALINGS IN THE SOFTWARE.
+- */
+-
+-/dts-v1/;
+-#include "rk3288-evb.dtsi"
+-#include "rk3288-android.dtsi"
+-
+-/ {
+-	compatible = "rockchip,rk3288-evb-act8846", "rockchip,rk3288";
+-
+-	sdio_pwrseq: sdio-pwrseq {
+-		compatible = "mmc-pwrseq-simple";
+-		clocks = <&hym8563>;
+-		clock-names = "ext_clock";
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&wifi_enable_h>;
+-
+-		/*
+-		 * On the module itself this is one of these (depending
+-		 * on the actual card populated):
+-		 * - SDIO_RESET_L_WL_REG_ON
+-		 * - PDN (power down when low)
+-		 */
+-		reset-gpios = <&gpio4 28 GPIO_ACTIVE_LOW>;
+-	};
+-
+-	vcc_lcd: vcc-lcd {
+-		compatible = "regulator-fixed";
+-		enable-active-high;
+-		gpio = <&gpio7 3 GPIO_ACTIVE_HIGH>;
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&lcd_en>;
+-		regulator-name = "vcc_lcd";
+-		vin-supply = <&vcc_io>;
+-	};
+-
+-	vcc_wl: vcc-wl {
+-		compatible = "regulator-fixed";
+-		enable-active-high;
+-		gpio = <&gpio7 9 GPIO_ACTIVE_HIGH>;
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&wifi_pwr>;
+-		regulator-name = "vcc_wl";
+-		vin-supply = <&vcc_18>;
+-	};
+-};
+-
+-&cpu0 {
+-	cpu0-supply = <&vdd_cpu>;
+-};
+-
+>>>>>>> ae49addfa5ed283e57ba7a5fcaa7da1ae6c27824
 -&edp {
 -	vcc-supply = <&vdd10_lcd>;
 -	vccio-supply = <&vcc18_lcd>;
 -};
 -
+<<<<<<< HEAD
  &gpu {
  	status = "okay";
  	mali-supply = <&vdd_gpu>;
@@ -63,6 +190,200 @@ index 5817289..f4fe007 100644
  	power-supply = <&vcc_lcd>;
  };
  
+=======
+-&gpu {
+-	status = "okay";
+-	mali-supply = <&vdd_gpu>;
+-};
+-
+-&i2c0 {
+-	clock-frequency = <400000>;
+-
+-	vdd_cpu: syr827@40 {
+-		compatible = "silergy,syr827";
+-		fcs,suspend-voltage-selector = <1>;
+-		reg = <0x40>;
+-		regulator-name = "vdd_cpu";
+-		regulator-min-microvolt = <850000>;
+-		regulator-max-microvolt = <1350000>;
+-		regulator-always-on;
+-		regulator-boot-on;
+-		regulator-enable-ramp-delay = <300>;
+-		regulator-ramp-delay = <8000>;
+-		vin-supply = <&vcc_sys>;
+-		regulator-state-mem {
+-			regulator-off-in-suspend;
+-		};
+-	};
+-
+-	vdd_gpu: syr828@41 {
+-		compatible = "silergy,syr828";
+-		fcs,suspend-voltage-selector = <1>;
+-		reg = <0x41>;
+-		regulator-name = "vdd_gpu";
+-		regulator-min-microvolt = <850000>;
+-		regulator-max-microvolt = <1350000>;
+-		regulator-always-on;
+-		regulator-ramp-delay = <6000>;
+-		vin-supply = <&vcc_sys>;
+-		regulator-state-mem {
+-			regulator-off-in-suspend;
+-		};
+-	};
+-
+-	hym8563: hym8563@51 {
+-		compatible = "haoyu,hym8563";
+-		reg = <0x51>;
+-
+-		interrupt-parent = <&gpio0>;
+-		interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
+-
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&pmic_int>;
+-
+-		#clock-cells = <0>;
+-		clock-output-names = "xin32k";
+-	};
+-
+-	act8846: act8846@5a {
+-		compatible = "active-semi,act8846";
+-		reg = <0x5a>;
+-		status = "okay";
+-
+-		vp1-supply = <&vcc_sys>;
+-		vp2-supply = <&vcc_sys>;
+-		vp3-supply = <&vcc_sys>;
+-		vp4-supply = <&vcc_sys>;
+-		inl1-supply = <&vcc_io>;
+-		inl2-supply = <&vcc_sys>;
+-		inl3-supply = <&vcc_20>;
+-
+-		regulators {
+-			vcc_ddr: REG1 {
+-				regulator-name = "VCC_DDR";
+-				regulator-min-microvolt = <1200000>;
+-				regulator-max-microvolt = <1200000>;
+-				regulator-always-on;
+-			};
+-
+-			vcc_io: REG2 {
+-				regulator-name = "VCC_IO";
+-				regulator-min-microvolt = <3300000>;
+-				regulator-max-microvolt = <3300000>;
+-				regulator-always-on;
+-			};
+-
+-			vdd_log: REG3 {
+-				regulator-name = "VDD_LOG";
+-				regulator-min-microvolt = <1150000>;
+-				regulator-max-microvolt = <1150000>;
+-				regulator-always-on;
+-			};
+-
+-			vcc_20: REG4 {
+-				regulator-name = "VCC_20";
+-				regulator-min-microvolt = <2000000>;
+-				regulator-max-microvolt = <2000000>;
+-				regulator-always-on;
+-			};
+-
+-			vccio_sd: REG5 {
+-				regulator-name = "VCCIO_SD";
+-				regulator-min-microvolt = <1800000>;
+-				regulator-max-microvolt = <3300000>;
+-				regulator-always-on;
+-			};
+-
+-			vdd10_lcd: REG6 {
+-				regulator-name = "VDD10_LCD";
+-				regulator-min-microvolt = <1000000>;
+-				regulator-max-microvolt = <1000000>;
+-				regulator-always-on;
+-			};
+-
+-			vcca_codec: REG7 {
+-				regulator-name = "VCCA_CODEC";
+-				regulator-min-microvolt = <3300000>;
+-				regulator-max-microvolt = <3300000>;
+-				regulator-always-on;
+-			};
+-
+-			vcca_tp: REG8 {
+-				regulator-name = "VCCA_TP";
+-				regulator-min-microvolt = <3300000>;
+-				regulator-max-microvolt = <3300000>;
+-				regulator-always-on;
+-			};
+-
+-			vccio_pmu: REG9 {
+-				regulator-name = "VCCIO_PMU";
+-				regulator-min-microvolt = <3300000>;
+-				regulator-max-microvolt = <3300000>;
+-				regulator-always-on;
+-			};
+-
+-			vdd_10: REG10 {
+-				regulator-name = "VDD_10";
+-				regulator-min-microvolt = <1000000>;
+-				regulator-max-microvolt = <1000000>;
+-				regulator-always-on;
+-			};
+-
+-			vcc_18: REG11 {
+-				regulator-name = "VCC_18";
+-				regulator-min-microvolt = <1800000>;
+-				regulator-max-microvolt = <1800000>;
+-				regulator-always-on;
+-			};
+-
+-			vcc18_lcd: REG12 {
+-				regulator-name = "VCC18_LCD";
+-				regulator-min-microvolt = <1800000>;
+-				regulator-max-microvolt = <1800000>;
+-				regulator-always-on;
+-			};
+-		};
+-	};
+-};
+-
+-&edp {
+-	status = "okay";
+-};
+-
+-&edp_panel {
+-	compatible ="lg,lp079qx1-sp0v", "simple-panel";
+-	enable-gpios = <&gpio7 4 GPIO_ACTIVE_HIGH>;
+-	pinctrl-0 = <&lcd_cs>;
+-	power-supply = <&vcc_lcd>;
+-	delay,prepare = <120>;
+-	status = "okay";
+-
+-	disp_timings: display-timings {
+-		native-mode = <&timing0>;
+-
+-		timing0: timing0 {
+-			clock-frequency = <200000000>;
+-			hactive = <1536>;
+-			vactive = <2048>;
+-			hfront-porch = <12>;
+-			hsync-len = <16>;
+-			hback-porch = <48>;
+-			vfront-porch = <8>;
+-			vsync-len = <4>;
+-			vback-porch = <8>;
+-			hsync-active = <0>;
+-			vsync-active = <0>;
+-			de-active = <0>;
+-			pixelclk-active = <0>;
+-		};
+-	};
+-};
+-
+-&edp_phy {
+-	status = "okay";
+-};
+-
+>>>>>>> ae49addfa5ed283e57ba7a5fcaa7da1ae6c27824
 -&i2c1 {
 -	status = "okay";
 -	clock-frequency = <400000>;
@@ -86,6 +407,7 @@ index 5817289..f4fe007 100644
 -};
 -
 -&lvds_panel {
+<<<<<<< HEAD
 +&edp_panel {
  	power-supply = <&vcc_lcd>;
  };
@@ -94,15 +416,301 @@ index 5817289..f4fe007 100644
  			rockchip,pins = <7 9 RK_FUNC_GPIO &pcfg_pull_none>;
  		};
  	};
+=======
+-	power-supply = <&vcc_lcd>;
+-};
+-
+-&pinctrl {
+-	lcd {
+-		lcd_en: lcd-en  {
+-			rockchip,pins = <7 3 RK_FUNC_GPIO &pcfg_pull_none>;
+-		};
+-	};
+-
+-	wifi {
+-		wifi_pwr: wifi-pwr {
+-			rockchip,pins = <7 9 RK_FUNC_GPIO &pcfg_pull_none>;
+-		};
+-	};
+>>>>>>> ae49addfa5ed283e57ba7a5fcaa7da1ae6c27824
 -
 -	mpu6050 {
 -		mpu6050_irq_gpio: mpu6050-irq-gpio {
 -			rockchip,pins = <8 0 RK_FUNC_GPIO &pcfg_pull_none>;
 -		};
 -	};
+<<<<<<< HEAD
  };
 diff --git a/arch/arm/boot/dts/rk3288-evb.dtsi b/arch/arm/boot/dts/rk3288-evb.dtsi
 index 75dbade..083eeaa 100644
+=======
+-};
+diff --git a/arch/arm/boot/dts/rk3288-evb-act8846.dts b/arch/arm/boot/dts/rk3288-evb-act8846.dts
+new file mode 100644
+index 0000000..f4fe007
+--- /dev/null
++++ b/arch/arm/boot/dts/rk3288-evb-act8846.dts
+@@ -0,0 +1,257 @@
++/*
++ * This file is dual-licensed: you can use it either under the terms
++ * of the GPL or the X11 license, at your option. Note that this dual
++ * licensing only applies to this file, and not this project as a
++ * whole.
++ *
++ *  a) This file is free software; you can redistribute it and/or
++ *     modify it under the terms of the GNU General Public License as
++ *     published by the Free Software Foundation; either version 2 of the
++ *     License, or (at your option) any later version.
++ *
++ *     This file is distributed in the hope that it will be useful,
++ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *     GNU General Public License for more details.
++ *
++ * Or, alternatively,
++ *
++ *  b) Permission is hereby granted, free of charge, to any person
++ *     obtaining a copy of this software and associated documentation
++ *     files (the "Software"), to deal in the Software without
++ *     restriction, including without limitation the rights to use,
++ *     copy, modify, merge, publish, distribute, sublicense, and/or
++ *     sell copies of the Software, and to permit persons to whom the
++ *     Software is furnished to do so, subject to the following
++ *     conditions:
++ *
++ *     The above copyright notice and this permission notice shall be
++ *     included in all copies or substantial portions of the Software.
++ *
++ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
++ *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ *     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++ *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++ *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ *     OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++/dts-v1/;
++#include "rk3288-evb.dtsi"
++
++/ {
++	compatible = "rockchip,rk3288-evb-act8846", "rockchip,rk3288";
++
++	sdio_pwrseq: sdio-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		clocks = <&hym8563>;
++		clock-names = "ext_clock";
++		pinctrl-names = "default";
++		pinctrl-0 = <&wifi_enable_h>;
++
++		/*
++		 * On the module itself this is one of these (depending
++		 * on the actual card populated):
++		 * - SDIO_RESET_L_WL_REG_ON
++		 * - PDN (power down when low)
++		 */
++		reset-gpios = <&gpio4 28 GPIO_ACTIVE_LOW>;
++	};
++
++	vcc_lcd: vcc-lcd {
++		compatible = "regulator-fixed";
++		enable-active-high;
++		gpio = <&gpio7 3 GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&lcd_en>;
++		regulator-name = "vcc_lcd";
++		vin-supply = <&vcc_io>;
++	};
++
++	vcc_wl: vcc-wl {
++		compatible = "regulator-fixed";
++		enable-active-high;
++		gpio = <&gpio7 9 GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&wifi_pwr>;
++		regulator-name = "vcc_wl";
++		vin-supply = <&vcc_18>;
++	};
++};
++
++&cpu0 {
++	cpu0-supply = <&vdd_cpu>;
++};
++
++&gpu {
++	status = "okay";
++	mali-supply = <&vdd_gpu>;
++};
++
++&i2c0 {
++	clock-frequency = <400000>;
++
++	vdd_cpu: syr827@40 {
++		compatible = "silergy,syr827";
++		fcs,suspend-voltage-selector = <1>;
++		reg = <0x40>;
++		regulator-name = "vdd_cpu";
++		regulator-min-microvolt = <850000>;
++		regulator-max-microvolt = <1350000>;
++		regulator-always-on;
++		regulator-boot-on;
++		regulator-enable-ramp-delay = <300>;
++		regulator-ramp-delay = <8000>;
++		vin-supply = <&vcc_sys>;
++	};
++
++	vdd_gpu: syr828@41 {
++		compatible = "silergy,syr828";
++		fcs,suspend-voltage-selector = <1>;
++		reg = <0x41>;
++		regulator-name = "vdd_gpu";
++		regulator-min-microvolt = <850000>;
++		regulator-max-microvolt = <1350000>;
++		regulator-always-on;
++		regulator-ramp-delay = <6000>;
++		vin-supply = <&vcc_sys>;
++	};
++
++	hym8563: hym8563@51 {
++		compatible = "haoyu,hym8563";
++		reg = <0x51>;
++
++		interrupt-parent = <&gpio0>;
++		interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&pmic_int>;
++
++		#clock-cells = <0>;
++		clock-output-names = "xin32k";
++	};
++
++	act8846: act8846@5a {
++		compatible = "active-semi,act8846";
++		reg = <0x5a>;
++		status = "okay";
++
++		vp1-supply = <&vcc_sys>;
++		vp2-supply = <&vcc_sys>;
++		vp3-supply = <&vcc_sys>;
++		vp4-supply = <&vcc_sys>;
++		inl1-supply = <&vcc_io>;
++		inl2-supply = <&vcc_sys>;
++		inl3-supply = <&vcc_20>;
++
++		regulators {
++			vcc_ddr: REG1 {
++				regulator-name = "VCC_DDR";
++				regulator-min-microvolt = <1200000>;
++				regulator-max-microvolt = <1200000>;
++				regulator-always-on;
++			};
++
++			vcc_io: REG2 {
++				regulator-name = "VCC_IO";
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-always-on;
++			};
++
++			vdd_log: REG3 {
++				regulator-name = "VDD_LOG";
++				regulator-min-microvolt = <1150000>;
++				regulator-max-microvolt = <1150000>;
++				regulator-always-on;
++			};
++
++			vcc_20: REG4 {
++				regulator-name = "VCC_20";
++				regulator-min-microvolt = <2000000>;
++				regulator-max-microvolt = <2000000>;
++				regulator-always-on;
++			};
++
++			vccio_sd: REG5 {
++				regulator-name = "VCCIO_SD";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-always-on;
++			};
++
++			vdd10_lcd: REG6 {
++				regulator-name = "VDD10_LCD";
++				regulator-min-microvolt = <1000000>;
++				regulator-max-microvolt = <1000000>;
++				regulator-always-on;
++			};
++
++			vcca_codec: REG7 {
++				regulator-name = "VCCA_CODEC";
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-always-on;
++			};
++
++			vcca_tp: REG8 {
++				regulator-name = "VCCA_TP";
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-always-on;
++			};
++
++			vccio_pmu: REG9 {
++				regulator-name = "VCCIO_PMU";
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-always-on;
++			};
++
++			vdd_10: REG10 {
++				regulator-name = "VDD_10";
++				regulator-min-microvolt = <1000000>;
++				regulator-max-microvolt = <1000000>;
++				regulator-always-on;
++			};
++
++			vcc_18: REG11 {
++				regulator-name = "VCC_18";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-always-on;
++			};
++
++			vcc18_lcd: REG12 {
++				regulator-name = "VCC18_LCD";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-always-on;
++			};
++		};
++	};
++};
++
++&lvds_panel {
++	power-supply = <&vcc_lcd>;
++};
++
++&edp_panel {
++	power-supply = <&vcc_lcd>;
++};
++
++&pinctrl {
++	lcd {
++		lcd_en: lcd-en  {
++			rockchip,pins = <7 3 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++
++	wifi {
++		wifi_pwr: wifi-pwr {
++			rockchip,pins = <7 9 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/rk3288-evb.dtsi b/arch/arm/boot/dts/rk3288-evb.dtsi
+index 14da579..083eeaa 100644
+>>>>>>> ae49addfa5ed283e57ba7a5fcaa7da1ae6c27824
 --- a/arch/arm/boot/dts/rk3288-evb.dtsi
 +++ b/arch/arm/boot/dts/rk3288-evb.dtsi
 @@ -1,6 +1,4 @@
@@ -300,7 +908,11 @@ index 75dbade..083eeaa 100644
  &rga {
  	status = "okay";
  };
+<<<<<<< HEAD
 @@ -377,10 +404,22 @@
+=======
+@@ -377,8 +404,20 @@
+>>>>>>> ae49addfa5ed283e57ba7a5fcaa7da1ae6c27824
  	status = "okay";
  };
  
@@ -309,6 +921,7 @@ index 75dbade..083eeaa 100644
 +};
 +
  &uart2 {
+<<<<<<< HEAD
  	status = "okay";
  };
  
@@ -323,6 +936,21 @@ index 75dbade..083eeaa 100644
  &vpu_service {
  	status = "okay";
  };
+=======
+-	status = "disabled";
++	status = "okay";
++};
++
++&uart3 {
++	status = "okay";
++};
++
++&uart4 {
++	status = "okay";
+ };
+ 
+ &vpu_service {
+>>>>>>> ae49addfa5ed283e57ba7a5fcaa7da1ae6c27824
 @@ -396,7 +435,6 @@
  };
  
