@@ -13,8 +13,7 @@ IMAGE_TYPEDEP_rockchip-gpt-img = "${IMG_ROOTFS_TYPE}"
 
 GPTIMG = "${IMAGE_BASENAME}-${MACHINE}-gpt.img"
 GPTIMG_SIZE ?= "4096"
-BOOT_IMG = "boot.img"
-BOOTIMG_SYMLK = "${IMAGE_BASENAME}-${MACHINE}-${BOOT_IMG}"
+BOOT_IMG = "${IMAGE_BASENAME}-${MACHINE}-boot.img"
 IDBLOADER = "idbloader.img"
 
 # Get From rk-binary loader
@@ -53,23 +52,18 @@ IMAGE_CMD_rockchip-gpt-img() {
 	# Change to image directory
 	cd ${DEPLOY_DIR_IMAGE}
 
-	# Remove the existing image symlinks
-	rm -f "${BOOTIMG_SYMLK}"
-
 	# Remove the existing image
 	rm -f "${GPTIMG}"
+	rm -f "${BOOT_IMG}"
 
 	create_rk_image
 
 	${PER_CHIP_IMG_GENERATION_COMMAND}
 
-	# create per-build boot.img with symlink
 	cd ${DEPLOY_DIR_IMAGE}
-	rm -f ${IMAGE_NAME}-boot.img
 	if [ -f ${WORKDIR}/${BOOT_IMG} ]; then
-		cp ${WORKDIR}/${BOOT_IMG} ${IMAGE_NAME}-boot.img
+		cp ${WORKDIR}/${BOOT_IMG} ./
 	fi
-	ln -s ${IMAGE_NAME}-boot.img ${BOOTIMG_SYMLK}
 }
 
 create_rk_image() {
