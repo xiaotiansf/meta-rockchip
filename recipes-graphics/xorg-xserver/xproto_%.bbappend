@@ -1,5 +1,0 @@
-PV = "7.0.31"
-
-SRC_URI[md5sum] = "16791f7ca8c51a20608af11702e51083"
-SRC_URI[sha256sum] = "c6f9747da0bd3a95f86b17fb8dd5e717c8f3ab7f0ece3ba1b247899ec1ef7747"
-
