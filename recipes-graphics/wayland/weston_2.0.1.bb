@@ -18,6 +18,7 @@ SRC_URI += " \
 
 SRC_URI += " \
 	file://1001-os-compatibility-define-CLOCK_BOOTTIME-when-not-avai.patch \
+	file://1002-configure-always-disable-GBM_MODIFIERS.patch \
 	file://1003-compositor-set-DEFAULT_REPAINT_WINDOW-15.patch \
 "
 
@@ -33,7 +34,7 @@ DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
 
 EXTRA_OECONF = "--enable-setuid-install \
                 --disable-rdp-compositor \
-                WAYLAND_PROTOCOLS_SYSROOT_DIR=${STAGING_DIR}/${MACHINE} \
+                WAYLAND_PROTOCOLS_SYSROOT_DIR=${RECIPE_SYSROOT} \
                 "
 EXTRA_OECONF_append_qemux86 = "\
 		WESTON_NATIVE_BACKEND=fbdev-backend.so \
@@ -43,12 +44,9 @@ EXTRA_OECONF_append_qemux86-64 = "\
 		"
 
 PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                   ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd x11', d)} \
                    clients launch"
-
 #
 # Compositor choices
 #
