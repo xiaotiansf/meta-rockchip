@@ -11,19 +11,20 @@ IMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_BASENAME}-${MACHINE}.${IMG_ROOTFS_TYPE}"
 # This image depends on the rootfs image
 IMAGE_TYPEDEP_rockchip-gpt-img = "${IMG_ROOTFS_TYPE}"
 
-GPTIMG = "${IMAGE_NAME}-gpt.img"
-GPTIMG_SYMLK = "${IMAGE_BASENAME}-${MACHINE}-gpt.img"
+GPTIMG = "${IMAGE_BASENAME}-${MACHINE}-gpt.img"
 GPTIMG_SIZE ?= "4096"
 BOOT_IMG = "boot.img"
 BOOTIMG_SYMLK = "${IMAGE_BASENAME}-${MACHINE}-${BOOT_IMG}"
+IDBLOADER = "idbloader.img"
+
+# Get From rk-binary loader
 DDR_BIN = "ddr.bin"
 LOADER_BIN = "loader.bin"
 MINILOADER_BIN = "miniloader.bin"
 ATF_BIN = "atf.bin"
-UBOOT = "u-boot.out"
 UBOOT_IMG = "u-boot.img"
-TRUST = "trust.out"
 TRUST_IMG = "trust.img"
+
 GPTIMG_APPEND ?= "console=tty1 console=ttyS2,115200n8 rw root=/dev/mmcblk2p7 rootfstype=ext4 init=/sbin/init"
 
 # default partitions [in Sectors]
@@ -53,15 +54,14 @@ IMAGE_CMD_rockchip-gpt-img() {
 	cd ${DEPLOY_DIR_IMAGE}
 
 	# Remove the existing image symlinks
-	rm -f "${GPTIMG_SYMLK}"
 	rm -f "${BOOTIMG_SYMLK}"
+
+	# Remove the existing image
+	rm -f "${GPTIMG}"
 
 	create_rk_image
 
 	${PER_CHIP_IMG_GENERATION_COMMAND}
-
-	cd ${DEPLOY_DIR_IMAGE}
-	ln -s ${GPTIMG} ${GPTIMG_SYMLK}
 
 	# create per-build boot.img with symlink
 	cd ${DEPLOY_DIR_IMAGE}
@@ -145,18 +145,18 @@ EOF
 generate_rk3036_loader1_image() {
 
 	# Burn bootloader
-	mkimage -n rk3036 -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${UBOOT}
-	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>${WORKDIR}/${UBOOT}
-	dd if=${WORKDIR}/${UBOOT} of=${GPTIMG} conv=notrunc,fsync seek=64
+	mkimage -n rk3036 -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${IDBLOADER}
+	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>${WORKDIR}/${IDBLOADER}
+	dd if=${WORKDIR}/${IDBLOADER} of=${GPTIMG} conv=notrunc,fsync seek=64
 
 }
 
 generate_rk3288_loader1_image() {
 
 	# Burn bootloader
-	mkimage -n rk3288 -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${UBOOT}
-	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>${WORKDIR}/${UBOOT}
-	dd if=${WORKDIR}/${UBOOT} of=${GPTIMG} conv=notrunc,fsync seek=64
+	mkimage -n rk3288 -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${IDBLOADER}
+	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>${WORKDIR}/${IDBLOADER}
+	dd if=${WORKDIR}/${IDBLOADER} of=${GPTIMG} conv=notrunc,fsync seek=64
 
 }
 
@@ -172,10 +172,10 @@ generate_rk3399_image() {
 	# Burn bootloader
 	loaderimage --pack --uboot ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin ${WORKDIR}/${UBOOT_IMG}
 
-	mkimage -n rk3399 -T rksd -d ${DEPLOY_DIR_IMAGE}/${DDR_BIN} ${WORKDIR}/idbloader.img
-	cat ${DEPLOY_DIR_IMAGE}/${MINILOADER_BIN} >>${WORKDIR}/idbloader.img
+	mkimage -n rk3399 -T rksd -d ${DEPLOY_DIR_IMAGE}/${DDR_BIN} ${WORKDIR}/${IDBLOADER}
+	cat ${DEPLOY_DIR_IMAGE}/${MINILOADER_BIN} >>${WORKDIR}/${IDBLOADER}
 
-	dd if=${WORKDIR}/idbloader.img of=${GPTIMG} conv=notrunc,fsync seek=${LOADER1_START}
+	dd if=${WORKDIR}/${IDBLOADER} of=${GPTIMG} conv=notrunc,fsync seek=${LOADER1_START}
 	dd if=${WORKDIR}/${UBOOT_IMG} of=${GPTIMG} conv=notrunc,fsync seek=${LOADER2_START}
 	dd if=${DEPLOY_DIR_IMAGE}/${TRUST_IMG} of=${GPTIMG} conv=notrunc,fsync seek=${ATF_START}
 }
