@@ -4,6 +4,6 @@
 PACKAGECONFIG_GL   = "gles2"
 PACKAGECONFIG_FONTS	= "fontconfig"
 
-PACKAGECONFIG_APPEND = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'libinput eglfs', d)}"
+PACKAGECONFIG_APPEND = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'libinput eglfs gbm', d)}"
 
 PACKAGECONFIG_append = " ${PACKAGECONFIG_APPEND} kms accessibility"
