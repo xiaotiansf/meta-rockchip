@@ -1,3 +1,31 @@
+==============================================
+================== Rockchip ==================
+==============================================
+
+Latest Version
+============
+
+pyro
+
+Guides
+============
+
+wiki http://opensource.rock-chips.com/wiki_Main_Page
+
+
+Contributing
+============
+
+Send pull requests in Github and we will review it.
+
+If you find the updates break the build, please open a github issue to report it.
+
+
+
+==============================================
+=================== ORIGIN ===================
+==============================================
+
 This README file contains information on building the meta-rockchip
 BSP layer, and booting images.
 Please see the corresponding sections below for details.
