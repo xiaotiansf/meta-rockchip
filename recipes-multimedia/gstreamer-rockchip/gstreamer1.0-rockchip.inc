@@ -21,14 +21,15 @@ inherit gettext autotools pkgconfig
 
 PACKAGECONFIG ??= " \
     mpp             \
-    kms             \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'drm', '', d)} \
 "
 PACKAGECONFIG[mpp]    = "--enable-rockchipmpp,--disable-rockchipmpp,rockchip-mpp"
 PACKAGECONFIG[vpudec] = "--enable-vpudec,--disable-vpudec,rockchip-vpu"
 PACKAGECONFIG[drm]    = "--enable-drmrockchip,--disable-drmrockchip,libdrm"
-PACKAGECONFIG[kms]    = "--enable-kms,--disable-kms,libdrm"
 
+EXTRA_OECONF += "    \
+    --disable-kms    \
+"
 EXTRA_OECONF_remove = "--disable-gtk-doc"
 
 do_configure[prefuncs] = " delete_pkg_m4_file"
