@@ -35,12 +35,12 @@ LOADER2_SIZE = "8192"
 ATF_SIZE = "8192"
 BOOT_SIZE = "229376"
 
-IMAGE_DEPENDS_rockchip-gpt-img = "parted-native \
-	u-boot-mkimage-native \
-	mtools-native \
-	dosfstools-native \
+do_image_rockchip_gpt_img[depends] += "parted-native:do_populate_sysroot \
+	u-boot-mkimage-native:do_populate_sysroot \
+	mtools-native:do_populate_sysroot \
+	dosfstools-native:do_populate_sysroot \
 	rk-binary-loader:do_deploy \
-	rk-binary-native \
+	rk-binary-native:do_populate_sysroot \
 	virtual/kernel:do_deploy \
 	virtual/bootloader:do_deploy"
 

@@ -7,9 +7,9 @@ inherit image_types
 # This image depends on the rootfs ext4 image
 IMAGE_TYPEDEP_rockchip-update-img = "ext4"
 
-IMAGE_DEPENDS_rockchip-update-img  = " \
-	rk-binary-loader \
-	rk-binary-native \
+do_image_rockchip_update_img[depends] += " \
+	rk-binary-loader:do_populate_sysroot \
+	rk-binary-native:do_populate_sysroot \
 	virtual/kernel:do_deploy"
 
 FIRMWARE_VER ?= "1.0"
