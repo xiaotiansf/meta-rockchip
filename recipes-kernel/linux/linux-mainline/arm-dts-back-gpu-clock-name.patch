@@ -1,0 +1,25 @@
+From 15398cb3e1b4df27ab5fbf0b37e015e9e55fe626 Mon Sep 17 00:00:00 2001
+From: Jacob Chen <jacob-chen@iotwrt.com>
+Date: Wed, 28 Jun 2017 10:12:55 +0800
+Subject: [PATCH] arm: dts: back gpu clock name
+
+Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+---
+ arch/arm/boot/dts/rk3288.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
+index baaa1a7..fb2390d 100644
+--- a/arch/arm/boot/dts/rk3288.dtsi
++++ b/arch/arm/boot/dts/rk3288.dtsi
+@@ -1224,6 +1224,7 @@
+ 			     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+ 		interrupt-names = "job", "mmu", "gpu";
+ 		clocks = <&cru ACLK_GPU>;
++		clock-names = "clk_mali";
+ 		operating-points-v2 = <&gpu_opp_table>;
+ 		power-domains = <&power RK3288_PD_GPU>;
+ 		status = "disabled";
+-- 
+2.7.4
+

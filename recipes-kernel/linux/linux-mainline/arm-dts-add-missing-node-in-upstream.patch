@@ -1,6 +1,6 @@
-From d56511e686d2e9dddd7b47be3bb6a63e44cef2f6 Mon Sep 17 00:00:00 2001
+From f7316a332680863bb2bd21e4fbf3ec55653ebccd Mon Sep 17 00:00:00 2001
 From: Jacob Chen <jacob-chen@iotwrt.com>
-Date: Sat, 29 Apr 2017 12:36:20 +0800
+Date: Tue, 27 Jun 2017 16:13:16 +0800
 Subject: [PATCH] arm: dts: add missing node in upstream
 
 copy from 4.4
@@ -11,31 +11,10 @@ Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
  1 file changed, 91 insertions(+)
 
 diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
-index 3596904..76bedd6 100644
+index ad5d602..5820700 100644
 --- a/arch/arm/boot/dts/rk3288.dtsi
 +++ b/arch/arm/boot/dts/rk3288.dtsi
-@@ -945,6 +945,20 @@
- 		status = "okay";
- 	};
- 
-+	rga: rga@ff920000 {
-+		compatible = "rockchip,rk3288-rga";
-+		reg = <0xff920000 0x180>;
-+		interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-names = "rga";
-+		clocks = <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA>;
-+		clock-names = "aclk", "hclk", "sclk";
-+		power-domains = <&power RK3288_PD_VIO>;
-+		resets = <&cru SRST_RGA_CORE>, <&cru SRST_RGA_AXI>, <&cru SRST_RGA_AHB>;
-+		reset-names = "core", "axi", "ahb";
-+		dma-coherent;
-+		status = "disabled";
-+	};
-+
- 	vopb: vop@ff930000 {
- 		compatible = "rockchip,rk3288-vop";
- 		reg = <0xff930000 0x19c>;
-@@ -1091,6 +1105,83 @@
+@@ -1098,6 +1112,83 @@
  		};
  	};
  
@@ -54,7 +33,7 @@ index 3596904..76bedd6 100644
 +		iommus = <&vpu_mmu>;
 +		iommu_enabled = <1>;
 +		dev_mode = <0>;
-+		status = "disabled";
++		status = "okay";
 +		/* 0 means ion, 1 means drm */
 +		allocator = <1>;
 +	};
@@ -97,7 +76,7 @@ index 3596904..76bedd6 100644
 +		dev_mode = <1>;
 +		iommus = <&hevc_mmu>;
 +		iommu_enabled = <1>;
-+		status = "disabled";
++		status = "okay";
 +		/* 0 means ion, 1 means drm */
 +		allocator = <1>;
 +	};
