@@ -10,6 +10,7 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-mainline"
 
 SERIAL_CONSOLES = "1500000;ttyFIQ0"
 KERNEL_IMAGETYPE = "Image"
+KBUILD_DEFCONFIG = "defconfig"
 
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-rockchip"
 
