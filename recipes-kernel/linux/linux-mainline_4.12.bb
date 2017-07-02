@@ -27,13 +27,13 @@ SRC_URI += " \
 SRC_URI += " \
 	file://0013-clk-rockchip-rk3288-prefer-vdpu-for-vcodec-clock-sou.patch \
 	file://soc-rockchip-power-domain-export-idle-request.patch \
+	file://v5-8-8-iommu-rockchip-Enable-Rockchip-IOMMU-on-ARM64.patch \
 "
 
 SRC_URI += " \
 	file://arm-dts-add-missing-node-in-upstream.patch \
 	file://arm-dts-add-rga-gpu-vpu-for-rk3288-evb.patch \
 	file://ARM-dts-rockchip-enable-gpu-and-vpu-for-RK3288-Tinke.patch \
-	file://arm-dts-back-gpu-clock-name.patch \
 	file://v6-3-3-drm-rockchip-Support-10-bits-yuv-format-in-vop.patch \
 	file://v6-1-3-drm_fourcc-Add-new-P010-P016-video-format.patch \
 "

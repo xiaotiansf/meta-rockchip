@@ -12,7 +12,7 @@ inherit module
 
 DEPENDS += "linux-mainline"
 
-SRCREV = "7f7fb86ca7b671aef2d0bcb8aee76f1b69ad03e4"
+SRCREV = "0db101a48fa132a323c2af7fa2b94db9a53b0a27"
 SRC_URI = "git://github.com/rockchip-linux/rockchip_forwardports.git"
 S = "${WORKDIR}/git"
 
