@@ -33,6 +33,9 @@ do_deploy () {
 	[ ${MINILOADER} ] && cp ${S}/${MINILOADER} ${DEPLOYDIR}/${MINILOADER_BIN}
 	[ ${LOADER} ] && cp ${S}/${LOADER} ${DEPLOYDIR}/${LOADER_BIN}
 	[ ${ATF} ] && cp ${S}/${ATF} ${DEPLOYDIR}/${ATF_BIN}
+
+	# Don't remove it!
+	echo "done"
 }
 
 deploy_prebuilt_image () {
