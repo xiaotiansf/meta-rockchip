@@ -4,7 +4,7 @@ LICENSE = "BINARY"
 LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=564e729dd65db6f65f911ce0cd340cf9"
 NO_GENERIC_LICENSE[BINARY] = "LICENSE.TXT"
 
-COMPATIBLE_MACHINE = "(rk3036|rk3288|rk3399)"
+COMPATIBLE_MACHINE = "(rk3036|rk3288|rk3328|rk3399)"
 
 # There's only hardfp version available
 python __anonymous() {
@@ -27,7 +27,7 @@ PROVIDES += "${@bb.utils.contains("DISTRO_FEATURES", "wayland", " virtual/libway
 S = "${WORKDIR}/git"
 
 SRC_URI = "git://github.com/rockchip-linux/libmali.git;branch=rockchip;"
-SRCREV_pn-${PN} = "41a3e9ae1369e2e497e5c11c4c31c8fe7f4afafc"
+SRCREV_pn-${PN} = "af3a2eedc426b89e234636f32d98b994b93cd27f"
 
 INSANE_SKIP_${PN} = "already-stripped ldflags dev-so"
 
