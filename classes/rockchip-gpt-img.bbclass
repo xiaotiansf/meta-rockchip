@@ -46,7 +46,8 @@ do_image_rockchip_gpt_img[depends] += "parted-native:do_populate_sysroot \
 
 PER_CHIP_IMG_GENERATION_COMMAND_rk3036 = "generate_rk3036_loader1_image"
 PER_CHIP_IMG_GENERATION_COMMAND_rk3288 = "generate_rk3288_loader1_image"
-PER_CHIP_IMG_GENERATION_COMMAND_rk3399 = "generate_rk3399_image"
+PER_CHIP_IMG_GENERATION_COMMAND_rk3328 = "generate_aarch64_loader_image"
+PER_CHIP_IMG_GENERATION_COMMAND_rk3399 = "generate_aarch64_loader_image"
 
 IMAGE_CMD_rockchip-gpt-img() {
 	# Change to image directory
@@ -145,16 +146,7 @@ generate_rk3036_loader1_image() {
 
 }
 
-generate_rk3288_loader1_image() {
-
-	# Burn bootloader
-	mkimage -n rk3288 -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${IDBLOADER}
-	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>${WORKDIR}/${IDBLOADER}
-	dd if=${WORKDIR}/${IDBLOADER} of=${GPTIMG} conv=notrunc,fsync seek=64
-
-}
-
-generate_rk3399_image() {
+generate_aarch64_loader_image() {
 	LOADER1_START=64
 	RESERVED1_START=$(expr ${LOADER1_START} + ${LOADER1_SIZE})
 	RESERVED2_START=$(expr ${RESERVED1_START} + ${RESERVED1_SIZE})
@@ -166,7 +158,7 @@ generate_rk3399_image() {
 	# Burn bootloader
 	loaderimage --pack --uboot ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin ${WORKDIR}/${UBOOT_IMG}
 
-	mkimage -n rk3399 -T rksd -d ${DEPLOY_DIR_IMAGE}/${DDR_BIN} ${WORKDIR}/${IDBLOADER}
+	mkimage -n ${SOC_FAMILY} -T rksd -d ${DEPLOY_DIR_IMAGE}/${DDR_BIN} ${WORKDIR}/${IDBLOADER}
 	cat ${DEPLOY_DIR_IMAGE}/${MINILOADER_BIN} >>${WORKDIR}/${IDBLOADER}
 
 	dd if=${WORKDIR}/${IDBLOADER} of=${GPTIMG} conv=notrunc,fsync seek=${LOADER1_START}
