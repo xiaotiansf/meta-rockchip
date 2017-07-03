@@ -43,6 +43,8 @@ deploy_prebuilt_image () {
 
 do_deploy_append_rk3328 () {
 	deploy_prebuilt_image
+	dd if=${DEPLOYDIR}/${DDR_BIN} of=${DEPLOYDIR}/TMP bs=4 skip=1
+	mv ${DEPLOYDIR}/TMP ${DEPLOYDIR}/${DDR_BIN}
 }
 
 do_deploy_append_rk3399 () {
