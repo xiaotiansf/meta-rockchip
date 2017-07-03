@@ -44,12 +44,12 @@ do_image_rockchip_gpt_img[depends] += "parted-native:do_populate_sysroot \
 	virtual/kernel:do_deploy \
 	virtual/bootloader:do_deploy"
 
-PER_CHIP_IMG_GENERATION_COMMAND_rk3036 = "generate_rk3036_loader1_image"
-PER_CHIP_IMG_GENERATION_COMMAND_rk3288 = "generate_rk3288_loader1_image"
+PER_CHIP_IMG_GENERATION_COMMAND_rk3036 = "generate_loader1_image"
+PER_CHIP_IMG_GENERATION_COMMAND_rk3288 = "generate_loader1_image"
 PER_CHIP_IMG_GENERATION_COMMAND_rk3328 = "generate_aarch64_loader_image"
 PER_CHIP_IMG_GENERATION_COMMAND_rk3399 = "generate_aarch64_loader_image"
 
-IMAGE_CMD_rockchip-gpt-img() {
+IMAGE_CMD_rockchip-gpt-img () {
 	# Change to image directory
 	cd ${DEPLOY_DIR_IMAGE}
 
@@ -67,7 +67,7 @@ IMAGE_CMD_rockchip-gpt-img() {
 	fi
 }
 
-create_rk_image() {
+create_rk_image () {
 
 	# Initialize sdcard image file
 	dd if=/dev/zero of=${GPTIMG} bs=1M count=0 seek=${GPTIMG_SIZE}
@@ -137,16 +137,16 @@ EOF
 
 }
 
-generate_rk3036_loader1_image() {
+generate_loader1_image () {
 
 	# Burn bootloader
-	mkimage -n rk3036 -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${IDBLOADER}
+	mkimage -n ${SOC_FAMILY} -T rksd -d ${DEPLOY_DIR_IMAGE}/${SPL_BINARY} ${WORKDIR}/${IDBLOADER}
 	cat ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin >>${WORKDIR}/${IDBLOADER}
 	dd if=${WORKDIR}/${IDBLOADER} of=${GPTIMG} conv=notrunc,fsync seek=64
 
 }
 
-generate_aarch64_loader_image() {
+generate_aarch64_loader_image () {
 	LOADER1_START=64
 	RESERVED1_START=$(expr ${LOADER1_START} + ${LOADER1_SIZE})
 	RESERVED2_START=$(expr ${RESERVED1_START} + ${RESERVED1_SIZE})
