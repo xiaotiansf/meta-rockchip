@@ -47,6 +47,6 @@ PR = "r1"
 PV = "${LINUX_VERSION}-rc7"
 
 # Include only supported boards for now
-COMPATIBLE_MACHINE = "(rk3036|rk3288|rk3399)"
+COMPATIBLE_MACHINE = "(rk3036|rk3288|rk3328|rk3399)"
 
 KCONFIG_MODE = "--alldefconfig"
