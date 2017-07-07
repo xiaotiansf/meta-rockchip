@@ -8,6 +8,6 @@ PACKAGECONFIG_FONTS	= "fontconfig"
 
 PACKAGECONFIG_APPEND = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'libinput eglfs gbm', d)}"
 
-PACKAGECONFIG_append = " ${PACKAGECONFIG_APPEND} kms accessibility"
+PACKAGECONFIG_append = " ${PACKAGECONFIG_APPEND} kms accessibility sm"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
