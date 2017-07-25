@@ -41,7 +41,6 @@ do_image_rockchip_gpt_img[depends] += "parted-native:do_populate_sysroot \
 	dosfstools-native:do_populate_sysroot \
 	rk-binary-loader:do_populate_sysroot \
 	rk-binary-native:do_populate_sysroot \
-	virtual/bootloader:do_populate_sysroot \
 	virtual/kernel:do_deploy \
 	virtual/bootloader:do_deploy"
 
