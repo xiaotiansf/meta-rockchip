@@ -36,6 +36,7 @@ SRC_URI += " \
 	file://ARM-dts-rockchip-enable-gpu-and-vpu-for-RK3288-Tinke.patch \
 	file://v6-3-3-drm-rockchip-Support-10-bits-yuv-format-in-vop.patch \
 	file://v6-1-3-drm_fourcc-Add-new-P010-P016-video-format.patch \
+	file://0001-drm-skip-permit-check.patch \
 "
 
 SRCREV = "c0bc126f97fb929b3ae02c1c62322645d70eb408"
