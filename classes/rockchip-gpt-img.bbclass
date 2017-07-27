@@ -24,7 +24,14 @@ ATF_BIN = "atf.bin"
 UBOOT_IMG = "u-boot.img"
 TRUST_IMG = "trust.img"
 
-GPTIMG_APPEND ?= "console=tty1 console=ttyS2,115200n8 rw root=/dev/mmcblk2p7 rootfstype=ext4 init=/sbin/init"
+GPTIMG_APPEND_rk3036 = "console=tty1 console=ttyS2,115200n8 rw \
+	root=PARTUUID=69dad710-2c rootfstype=ext4 init=/sbin/init"
+GPTIMG_APPEND_rk3288 = "console=tty1 console=ttyS2,115200n8 rw \
+	root=PARTUUID=69dad710-2c rootfstype=ext4 init=/sbin/init"
+GPTIMG_APPEND_rk3328 = "earlycon=uart8250,mmio32,0xff130000 rw \
+	root=PARTUUID=b921b045-1d rootwait rootfstype=ext4 init=/sbin/init rootwait"
+GPTIMG_APPEND_rk3399 = "console=tty1 console=ttyFIQ0,1500000n8 rw \
+	root=PARTUUID=b921b045-1d rootfstype=ext4 init=/sbin/init rootwait"
 
 # default partitions [in Sectors]
 # More info at http://rockchip.wikidot.com/partitions
@@ -38,6 +45,7 @@ BOOT_SIZE = "229376"
 do_image_rockchip_gpt_img[depends] += "parted-native:do_populate_sysroot \
 	u-boot-mkimage-native:do_populate_sysroot \
 	mtools-native:do_populate_sysroot \
+	gptfdisk-native:do_populate_sysroot \
 	dosfstools-native:do_populate_sysroot \
 	rk-binary-loader:do_populate_sysroot \
 	rk-binary-native:do_populate_sysroot \
@@ -95,9 +103,25 @@ create_rk_image () {
 	parted -s ${GPTIMG} set 6 boot on
 
 	# Create rootfs partition
-	parted -s ${GPTIMG} unit s mkpart root ${ROOTFS_START} 100%
+	parted -s ${GPTIMG} unit s mkpart rootfs ${ROOTFS_START} 100%
 
 	parted ${GPTIMG} print
+
+	if [ "${DEFAULTTUNE}" == "aarch64" ];then
+		ROOT_UUID="B921B045-1DF0-41C3-AF44-4C6F280D3FAE"
+	else
+		ROOT_UUID="69DAD710-2CE4-4E3C-B16C-21A1D49ABED3"
+	fi
+
+	# Change rootfs partuuid
+	gdisk ${GPTIMG} <<EOF
+x
+c
+7
+${ROOT_UUID}
+w
+y
+EOF
 
 	# Delete the boot image to avoid trouble with the build cache
 	rm -f ${WORKDIR}/${BOOT_IMG}
