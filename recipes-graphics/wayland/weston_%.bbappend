@@ -6,6 +6,7 @@ FILESPATH_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI_append += " \
 	file://weston.ini \
+	file://1003-compositor-set-DEFAULT_REPAINT_WINDOW-15.patch \
 "
 
 do_install_append() {
