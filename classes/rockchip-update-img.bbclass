@@ -8,7 +8,7 @@ inherit image_types
 IMAGE_TYPEDEP_rockchip-update-img = "ext4"
 
 # WORKROUND: miss recipeinfo
-do_image_rockchip_gpt_img[depends] += " \
+do_image_rockchip_update_img[depends] += " \
 	rk-binary-loader:do_populate_lic"
 
 do_image_rockchip_update_img[depends] += " \
