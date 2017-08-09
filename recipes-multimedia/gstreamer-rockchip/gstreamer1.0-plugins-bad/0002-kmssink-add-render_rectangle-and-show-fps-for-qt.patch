@@ -151,10 +151,10 @@ index 8508b0d..1a2d311 100644
  
 +  kms_get_render_rectangle (self, &result.x, &result.y, &result.w,
 +      &result.h);
-+  if(result.w < result.h){
-+	  result.y = result.y + (result.h - src.h * result.w/src.w)/2;
-+	  result.h = src.h * result.w/src.w;
-+	}
++  gst_video_sink_center_rect (src, result, &result, self->can_scale);
++
++
++
 +
 +  if (src.w >= 3840)
 +	src.h /=2;
