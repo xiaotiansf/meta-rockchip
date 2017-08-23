@@ -14,5 +14,5 @@ KBUILD_DEFCONFIG = "defconfig"
 
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-rockchip"
 
-IMAGE_FSTYPES = "ext4 rockchip-update-img rockchip-gpt-img"
+IMAGE_FSTYPES = "ext4 rockchip-gpt-img"
 IMAGE_CLASSES += "rockchip-gpt-img rockchip-update-img"
