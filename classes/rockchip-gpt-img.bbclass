@@ -143,13 +143,12 @@ EOF
 	DTBPATTERN="${KERNEL_IMAGETYPE}((-\w+)+\.dtb)"
 	for DFILES in ${DEPLOY_DIR_IMAGE}/*; do
 		DFILES=${DFILES##*/}
-		if echo "${DFILES}" | grep -qE $DTBPATTERN ; then
+		if echo "${DFILES}" | grep -P $DTBPATTERN ; then
+			[ -n "${DTS_FILE}" ] && bberror "Found multiple DTB under deploy dir, Please delete the unnecessary one."
 			DTS_FILE=${DFILES#*${KERNEL_IMAGETYPE}-}
-			echo "${DTS_FILE}"
 		fi
 	done
 
-	DEVICETREE_DEFAULT="${DTS_FILE}"
 	mcopy -i ${WORKDIR}/${BOOT_IMG} -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${DTS_FILE} ::${DTS_FILE}
 
 	# Create extlinux config file
@@ -158,7 +157,7 @@ default yocto
 
 label yocto
 	kernel /${KERNEL_IMAGETYPE}
-	devicetree /${DEVICETREE_DEFAULT}
+	devicetree /${DTS_FILE}
 	append ${GPTIMG_APPEND}
 EOF
 
