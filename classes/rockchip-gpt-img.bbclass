@@ -113,7 +113,7 @@ create_rk_image () {
 
 	parted ${GPTIMG} print
 
-	if [ "${DEFAULTTUNE}" == "aarch64" ];then
+	if [ "${DEFAULTTUNE}" = "aarch64" ];then
 		ROOT_UUID="B921B045-1DF0-41C3-AF44-4C6F280D3FAE"
 	else
 		ROOT_UUID="69DAD710-2CE4-4E3C-B16C-21A1D49ABED3"
