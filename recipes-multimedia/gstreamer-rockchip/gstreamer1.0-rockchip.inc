@@ -21,14 +21,13 @@ inherit gettext autotools pkgconfig
 
 PACKAGECONFIG ??= " \
     mpp             \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'rkximage', '', d)} \
 "
 PACKAGECONFIG[mpp]    = "--enable-rockchipmpp,--disable-rockchipmpp,rockchip-mpp"
 PACKAGECONFIG[vpudec] = "--enable-vpudec,--disable-vpudec,rockchip-vpu"
-PACKAGECONFIG[rkximage]    = "--enable-rkximage,--disable-rkximage,libdrm"
 
 EXTRA_OECONF += "    \
     --disable-kms    \
+    --disable-rkximage \
 "
 EXTRA_OECONF_remove = "--disable-gtk-doc"
 
