@@ -24,6 +24,6 @@ EXTRA_OECONF_remove = "--disable-gtk-doc"
 do_configure[prefuncs] = " delete_pkg_m4_file"
 
 do_configure() {
-	${S}/autogen.sh
+	NOCONFIGURE=true ${S}/autogen.sh
 	oe_runconf
 }
