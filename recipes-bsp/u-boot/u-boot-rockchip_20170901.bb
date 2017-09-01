@@ -11,7 +11,7 @@ COMPATIBLE_MACHINE = "(rk3036|rk3188|rk3288|rk3328|rk3399)"
 
 DEPENDS = "dtc-native bc-native"
 
-TAG = "release"
+TAG = "release_$PV"
 
 SRC_URI = " \
 	git://github.com/rockchip-linux/u-boot.git;tag=${TAG};nobranch=1; \
