@@ -191,7 +191,7 @@ generate_aarch64_loader_image () {
 	ROOTFS_START=$(expr ${BOOT_START} + ${BOOT_SIZE})
 
 	# Burn bootloader
-	loaderimage --pack --uboot ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin ${WORKDIR}/${UBOOT_IMG}
+	loaderimage --pack --uboot ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}.bin ${WORKDIR}/${UBOOT_IMG} 0x200000
 
 	mkimage -n ${SOC_FAMILY} -T rksd -d ${DEPLOY_DIR_IMAGE}/${DDR_BIN} ${WORKDIR}/${IDBLOADER}
 	cat ${DEPLOY_DIR_IMAGE}/${MINILOADER_BIN} >>${WORKDIR}/${IDBLOADER}
