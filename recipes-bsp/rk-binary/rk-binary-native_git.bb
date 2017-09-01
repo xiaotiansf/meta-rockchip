@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=564e729dd65db6f65f911ce0cd340cf9"
 NO_GENERIC_LICENSE[BINARY] = "LICENSE.TXT"
 
 SRC_URI = "git://github.com/rockchip-linux/rkbin.git"
-SRCREV = "7b3142bfc7b43709b2d09ca00faf85b36f8f74a4"
+SRCREV = "6dc367cc3353577c037c3c4e85fbed1a54fe84b5"
 S = "${WORKDIR}/git"
 
 do_install () {
@@ -21,5 +21,4 @@ do_install () {
 	install -m 0755 "${S}/tools/mkkrnlimg" ${D}/${bindir}
 	install -m 0755 "${S}/tools/resource_tool" ${D}/${bindir}
 
-	install -m 0755 "${S}/tools/upgrade_tool" ${D}/${bindir}
 }
