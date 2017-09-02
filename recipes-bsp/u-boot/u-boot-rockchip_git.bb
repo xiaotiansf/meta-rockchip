@@ -17,7 +17,6 @@ SRC_URI = " \
 "
 
 SRCREV = "${AUTOREV}"
-PV = "v2017.05+git${SRCPV}"
 S = "${WORKDIR}/git"
 
 do_compile_append () {
