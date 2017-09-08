@@ -8,6 +8,8 @@ COMPATIBLE_MACHINE = "(rk3036|rk3288|rk3328|rk3399)"
 
 # There's only hardfp version available
 python __anonymous() {
+    if d.getVar("DISTRO_CODENAME", True) != "pyro":
+        d.appendVar("RPROVIDES_rockchip-mali", "libwayland-egl.so()(64bit) libgbm.so()(64bit) libGLESv1_CM.so()(64bit) libGLESv2.so()(64bit) libEGL.so()(64bit) libOpenCL.so()(64bit) ")
     if d.getVar("TUNE_FEATURES", True) == "aarch64":
         return
     tunes = d.getVar("TUNE_FEATURES", True)
@@ -93,7 +95,3 @@ RPROVIDES_${PN} += "libegl libgles1 libglesv1-cm1 libgles2 libglesv2-2 libgbm"
 # Workaround: libMali.so provided by rk having no SONAME field in it
 # so add it to fix rdepends problems
 RPROVIDES_${PN} += "libwayland-egl.so libgbm.so libGLESv1_CM.so libGLESv2.so libEGL.so libOpenCL.so"
-RPROVIDES_${PN} += "libwayland-egl.so()(64bit) libgbm.so()(64bit) \
-	libGLESv1_CM.so()(64bit) libGLESv2.so()(64bit) \
-	libEGL.so()(64bit) libOpenCL.so()(64bit) \
-"
