@@ -7,7 +7,7 @@ require conf/machine/include/tune-cortexa7.inc
 require conf/machine/include/soc-family.inc
 
 PREFERRED_PROVIDER_virtual/kernel = "linux-rockchip"
-PREFERRED_VERSION_linux-rockchip = "3.10"
+PREFERRED_VERSION_linux-rockchip = "3.10.%"
 
 SERIAL_CONSOLES = "1500000;ttyS2"
 KERNEL_IMAGETYPE = "zImage"
