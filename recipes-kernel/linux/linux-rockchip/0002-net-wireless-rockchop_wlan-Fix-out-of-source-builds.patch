@@ -1,0 +1,31 @@
+From c76d381422f5ced814e4609377937a37d186a783 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 1 Sep 2018 00:44:40 -0700
+Subject: [PATCH 2/2] net: wireless: rockchop_wlan: Fix out of source builds
+
+When builing with make O=<dir> option this fails
+with errors since it can't find the header in the
+relative tree, prepending srctree is the right
+thing to do here.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ drivers/net/wireless/rockchip_wlan/rtl8723ds/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/wireless/rockchip_wlan/rtl8723ds/Makefile b/drivers/net/wireless/rockchip_wlan/rtl8723ds/Makefile
+index fcd0c27cfd1d..8343f99c9c79 100644
+--- a/drivers/net/wireless/rockchip_wlan/rtl8723ds/Makefile
++++ b/drivers/net/wireless/rockchip_wlan/rtl8723ds/Makefile
+@@ -152,7 +152,7 @@ CONFIG_PLATFORM_RTL8197D = n
+ 
+ CONFIG_DRVEXT_MODULE = n
+ 
+-export TopDIR ?= $(shell pwd)/drivers/net/wireless/rockchip_wlan/rtl8723ds
++export TopDIR ?= $(srctree)/drivers/net/wireless/rockchip_wlan/rtl8723ds
+ 
+ ########### COMMON  #################################
+ ifeq ($(CONFIG_GSPI_HCI), y)
+-- 
+2.18.0
+

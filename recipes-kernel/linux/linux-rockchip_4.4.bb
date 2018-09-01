@@ -7,6 +7,8 @@ DEPENDS += "openssl-native"
 
 SRC_URI = " \
 	git://github.com/rockchip-linux/kernel.git;branch=release-4.4; \
+	file://0001-MALI-Fix-out-of-source-builds.patch \
+	file://0002-net-wireless-rockchop_wlan-Fix-out-of-source-builds.patch \
 "
 
 SRCREV = "bca2464422eb8dd734f9218265dae256a82299be"

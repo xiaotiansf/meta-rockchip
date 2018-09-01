@@ -1,0 +1,67 @@
+From 432a1c3e3f7a6554269977457907f4b163b1f43a Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 1 Sep 2018 00:42:10 -0700
+Subject: [PATCH 1/2] MALI: Fix out of source builds
+
+When builing with make O=<dir> option this fails
+with errors since it can't find the header in the
+relative tree, prepending srctree is the right
+thing to do here.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ drivers/gpu/arm/mali400/mali/Kbuild | 6 +++---
+ drivers/gpu/arm/mali400/ump/Kbuild  | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/arm/mali400/mali/Kbuild b/drivers/gpu/arm/mali400/mali/Kbuild
+index 6ac149a10136..e927ddcb5cca 100755
+--- a/drivers/gpu/arm/mali400/mali/Kbuild
++++ b/drivers/gpu/arm/mali400/mali/Kbuild
+@@ -26,7 +26,7 @@ MALI_PLATFORM ?= rk
+ # For customer releases the Linux Device Drivers will be provided as ARM proprietary and GPL releases:
+ # The ARM proprietary product will only include the license/proprietary directory
+ # The GPL product will only include the license/gpl directory
+-ccflags-y += -I$(src)/linux/license/gpl
++ccflags-y += -I$(srctree)/$(src)/linux/license/gpl
+ 
+ 
+ ifeq ($(USING_GPU_UTILIZATION), 1)
+@@ -46,7 +46,7 @@ ifeq ($(MALI_PLATFORM_FILES),)
+ ifeq ($(CONFIG_ARCH_EXYNOS4),y)
+ EXTRA_DEFINES += -DMALI_FAKE_PLATFORM_DEVICE=1
+ export MALI_PLATFORM=exynos4
+-export MALI_PLATFORM_FILES_BUILDIN = $(notdir $(wildcard $(src)/platform/$(MALI_PLATFORM)/*.c))
++export MALI_PLATFORM_FILES_BUILDIN = $(notdir $(wildcard $(srctree)/$(src)/platform/$(MALI_PLATFORM)/*.c))
+ export MALI_PLATFORM_FILES_ADD_PREFIX = $(addprefix platform/$(MALI_PLATFORM)/,$(MALI_PLATFORM_FILES_BUILDIN)) 
+ endif
+ endif
+@@ -219,7 +219,7 @@ endif
+ ccflags-y += -DSVN_REV_STRING=\"$(DRIVER_REV)\"
+ 
+ VERSION_STRINGS :=
+-VERSION_STRINGS += API_VERSION=$(shell cd $(src); grep "\#define _MALI_API_VERSION" $(FILES_PREFIX)include/linux/mali/mali_utgard_uk_types.h | cut -d' ' -f 3 )
++VERSION_STRINGS += API_VERSION=$(shell cd $(srctree)/$(src); grep "\#define _MALI_API_VERSION" $(FILES_PREFIX)include/linux/mali/mali_utgard_uk_types.h | cut -d' ' -f 3 )
+ VERSION_STRINGS += REPO_URL=$(REPO_URL)
+ VERSION_STRINGS += REVISION=$(DRIVER_REV)
+ VERSION_STRINGS += CHANGED_REVISION=$(CHANGED_REVISION)
+diff --git a/drivers/gpu/arm/mali400/ump/Kbuild b/drivers/gpu/arm/mali400/ump/Kbuild
+index a3067ba72459..6838de900f40 100755
+--- a/drivers/gpu/arm/mali400/ump/Kbuild
++++ b/drivers/gpu/arm/mali400/ump/Kbuild
+@@ -13,9 +13,9 @@
+ CONFIG ?= default
+ 
+ # Link arch to the selected arch-config directory
+-$(shell [ -L $(src)/arch ] && rm $(src)/arch)
+-$(shell ln -sf arch-$(CONFIG) $(src)/arch)
+-$(shell touch $(src)/arch/config.h)
++$(shell [ -L $(srctree)/$(src)/arch ] && rm $(srctree)/$(src)/arch)
++$(shell ln -sf arch-$(CONFIG) $(srctree)/$(src)/arch)
++$(shell touch $(srctree)/$(src)/arch/config.h)
+ 
+ UDD_FILE_PREFIX = ../mali/
+ 
+-- 
+2.18.0
+
