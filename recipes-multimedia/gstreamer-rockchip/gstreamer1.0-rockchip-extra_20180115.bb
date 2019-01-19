@@ -7,5 +7,6 @@ TAG = "release_${PV}"
 SRC_URI = " \
 	git://github.com/rockchip-linux/gstreamer-rockchip-extra.git;tag=${TAG};nobranch=1 \
 "
+SRC_URI_remove = "file://gtk-doc-tweaks.patch"
 
 S = "${WORKDIR}/git"
