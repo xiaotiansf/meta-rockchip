@@ -13,7 +13,7 @@ PREFERRED_VERSION_linux-rockchip = "4.4.%"
 
 SERIAL_CONSOLES = "115200;ttyS2"
 KERNEL_IMAGETYPE = "zImage"
-KBUILD_DEFCONFIG = "rockchip_linux_defconfig"
+KBUILD_DEFCONFIG ?= "rockchip_linux_defconfig"
 
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-rockchip"
 SPL_BINARY ?= "u-boot-spl-dtb.bin"
