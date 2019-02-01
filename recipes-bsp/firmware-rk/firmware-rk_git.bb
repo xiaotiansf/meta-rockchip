@@ -8,17 +8,17 @@ LICENSE = "CLOSED"
 LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=564e729dd65db6f65f911ce0cd340cf9"
 
 SRCREV = "${AUTOREV}"
-SRC_URI = "git://github.com/rockchip-linux/rkbin.git;branch=yocto-old"
+SRC_URI = "git://github.com/rockchip-linux/rkwifibt"
 S = "${WORKDIR}/git"
 
 inherit allarch
 
 do_install () {
 	install -d ${D}/system/etc/firmware/
-	cp -rf ${S}/firmware/wifi/* ${D}/system/etc/firmware/
+	cp -rf ${S}/firmware/broadcom/all/WIFI_FIRMWARE/* ${D}/system/etc/firmware/
 
 	install -d ${D}/etc/firmware/
-	cp -rf ${S}/firmware/bluetooth/*.hcd ${D}/etc/firmware/
+	cp -rf ${S}/firmware/broadcom/all/BT_FIRMWARE/*.hcd ${D}/etc/firmware/
 }
 
 PACKAGES =+ "${PN}-wifi \
