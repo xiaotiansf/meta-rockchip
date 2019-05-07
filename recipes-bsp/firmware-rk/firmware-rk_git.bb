@@ -16,7 +16,7 @@ inherit allarch
 do_install () {
 	install -d ${D}/system/etc/firmware/
 	cp -rf ${S}/firmware/broadcom/all/WIFI_FIRMWARE/* ${D}/system/etc/firmware/
-
+        cp -rf ${S}/firmware/broadcom/AP* ${D}/system/
 	install -d ${D}/etc/firmware/
 	cp -rf ${S}/firmware/broadcom/all/BT_FIRMWARE/*.hcd ${D}/etc/firmware/
 }
@@ -25,5 +25,5 @@ PACKAGES =+ "${PN}-wifi \
 	${PN}-bt \
 "
 ALLOW_EMPTY_${PN} = "1"
-FILES_${PN}-wifi = "/system/etc/*"
+FILES_${PN}-wifi = "/system/*"
 FILES_${PN}-bt = "/etc/firmware/*"
