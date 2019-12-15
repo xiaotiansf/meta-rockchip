@@ -15,10 +15,10 @@ inherit allarch
 
 do_install () {
 	install -d ${D}/system/etc/firmware/
-	cp -rf ${S}/firmware/broadcom/all/WIFI_FIRMWARE/* ${D}/system/etc/firmware/
+	cp -rf ${S}/firmware/broadcom/all/wifi/* ${D}/system/etc/firmware/
         cp -rf ${S}/firmware/broadcom/AP* ${D}/system/
 	install -d ${D}/etc/firmware/
-	cp -rf ${S}/firmware/broadcom/all/BT_FIRMWARE/*.hcd ${D}/etc/firmware/
+	cp -rf ${S}/firmware/broadcom/all/bt/*.hcd ${D}/etc/firmware/
 }
 
 PACKAGES =+ "${PN}-wifi \
