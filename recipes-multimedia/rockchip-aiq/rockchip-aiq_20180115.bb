@@ -5,7 +5,7 @@ include rockchip-aiq.inc
 
 TAG = "release_${PV}"
 SRC_URI = " \
-	git://github.com/rockchip-linux/gstreamer-rockchip-extra.git;tag=${TAG};nobranch=1 \
+	git://github.com/kraj/gstreamer-rockchip-extra.git;tag=${TAG};nobranch=1 \
 "
 
 S = "${WORKDIR}/git"
