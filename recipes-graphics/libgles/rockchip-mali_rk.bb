@@ -65,7 +65,8 @@ python __anonymous() {
 }
 
 S = "${WORKDIR}/"
-SRC_URI = "https://github.com/rockchip-linux/libmali/raw/rockchip/lib/${MALI_TUNE}/${MALI_NAME}"
+SRC_URI = "https://github.com/rockchip-linux/libmali/raw/master/lib/${MALI_TUNE}/${MALI_NAME}"
+
 
 INSANE_SKIP_${PN} = "already-stripped ldflags dev-so"
 

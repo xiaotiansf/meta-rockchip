@@ -8,7 +8,7 @@ PROVIDES = "drm"
 DEPENDS = "libpthread-stubs udev libpciaccess util-macros-native"
 
 SRCBRANCH ?= "rockchip-2.4.8"
-SRC_URI = "git://github.com/rockchip-linux/libdrm-rockchip.git;branch=${SRCBRANCH}"
+SRC_URI = "git://github.com/kraj/libdrm-rockchip.git;branch=${SRCBRANCH}"
 SRCREV = "d2f498d648bf6e36c3db45d18f6d49044ad2ff9e"
 S = "${WORKDIR}/git"
 
