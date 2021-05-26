@@ -84,7 +84,7 @@ do_install () {
 	install -m 755 -d ${D}/${libdir}
         install ${S}/libmali-*.so ${D}/${libdir}
         # this will be bind mounted during runtime
-        touch ${D}${libdir}/libMali.so
+        ln -sf ${MALI_NAME} ${D}${libdir}/libMali.so
 
 	ln -sf libMali.so ${D}/${libdir}/libEGL.so
 	ln -sf libMali.so ${D}/${libdir}/libEGL.so.1
