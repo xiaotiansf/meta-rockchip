@@ -65,7 +65,10 @@ python __anonymous() {
 }
 
 S = "${WORKDIR}/"
-SRC_URI = "https://github.com/rockchip-linux/libmali/raw/master/lib/${MALI_TUNE}/${MALI_NAME}"
+SRC_URI = "https://github.com/rockchip-linux/libmali/raw/master/lib/${MALI_TUNE}/${MALI_NAME} \
+           ${EXTRALIBS} \
+          "
+EXTRALIBS_rk3288 = "https://github.com/rockchip-linux/libmali/raw/master/lib/${MALI_TUNE}/libmali-midgard-t76x-r14p0-r0p0-gbm.so"
 
 
 INSANE_SKIP_${PN} = "already-stripped ldflags dev-so"
@@ -79,7 +82,9 @@ do_compile[noexec] = "1"
 do_install () {
 	# Create MALI manifest
 	install -m 755 -d ${D}/${libdir}
-	install ${S}/${MALI_NAME} ${D}/${libdir}/libMali.so
+        install ${S}/libmali-*.so ${D}/${libdir}
+        # this will be bind mounted during runtime
+        touch ${D}${libdir}/libMali.so
 
 	ln -sf libMali.so ${D}/${libdir}/libEGL.so
 	ln -sf libMali.so ${D}/${libdir}/libEGL.so.1
@@ -99,7 +104,7 @@ do_install () {
 
 	# Workaround: libMali.so provided by rk having no SONAME field in itroot
 	# so add it to fix rdepends problems
-	patchelf --set-soname "libEGL.so.1" ${D}/${libdir}/libMali.so
+	patchelf --set-soname "libEGL.so.1" ${D}/${libdir}/${MALI_NAME}
 }
 
 PACKAGES = "${PN}"
