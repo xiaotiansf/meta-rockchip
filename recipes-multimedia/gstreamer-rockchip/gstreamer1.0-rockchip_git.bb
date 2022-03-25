@@ -8,7 +8,7 @@ include gstreamer1.0-rockchip.inc
 
 SRCBRANCH ?= "master"
 SRCREV = "${AUTOREV}"
-SRC_URI = "git://github.com/kraj/gstreamer-rockchip.git;branch=${SRCBRANCH}"
+SRC_URI = "git://github.com/kraj/gstreamer-rockchip.git;branch=${SRCBRANCH};protocol=https"
 SRC_URI_remove = "file://gtk-doc-tweaks.patch"
 
 S = "${WORKDIR}/git"
