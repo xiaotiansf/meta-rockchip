@@ -11,6 +11,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 FILESPATH_prepend := "${THISDIR}/${PN}:"
 
 SRCREV = "${AUTOREV}"
-SRC_URI = "git://github.com/kraj/mpp.git;branch=release"
+#SRC_URI = "git://github.com/kraj/mpp.git;branch=release"
+SRC_URI = "git@github.com:xiaotiansf/mpp.git;branch=develop"
 
 S = "${WORKDIR}/git"
